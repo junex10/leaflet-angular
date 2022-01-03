@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 import { AppComponent } from './app.component';
 
@@ -11,7 +12,8 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
   ],
   imports: [
     BrowserModule,
-    LeafletModule
+    LeafletModule,
+    ComponentsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

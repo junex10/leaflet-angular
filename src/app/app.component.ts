@@ -2,8 +2,11 @@ import { Component, AfterViewInit } from '@angular/core';
 import * as L from 'leaflet';
 import {
   MAP_LAYER,
-  MAP_OPTIONS
+  MAP_OPTIONS,
+  swalErrorLocation
 } from 'src/app/shared/shared.index';
+
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-root',
@@ -14,15 +17,23 @@ export class AppComponent implements AfterViewInit {
   title = 'map-leaflet';
   private map: any;
   private mapOptions: L.MapOptions = {
-    center: [ 39.8282, -98.5795 ],
-    zoom: 5
+    zoom: 10,
+    attributionControl: false
   };
   private initMap(): void {
-    this.map = L.map('map', this.mapOptions);
+    const map: any = L.map('map', this.mapOptions)
+    .locate({setView: true, maxZoom: 10});
+
+    map.on("locationerror", () => 
+      Swal.fire(swalErrorLocation())
+      //.then(() => window.location.href = window.location)
+    )
+
+    this.map = map;
 
     const tiles = L.tileLayer(MAP_LAYER, MAP_OPTIONS);
-
     tiles.addTo(this.map);
+
   }
   constructor() {
 
