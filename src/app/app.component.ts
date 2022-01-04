@@ -21,8 +21,7 @@ export class AppComponent implements AfterViewInit {
     zoom: 10,
     attributionControl: false
   };
-  constructor(
-  ) {}
+  constructor() {}
   private initMap(): void {
     const map: any = L.map('map', this.mapOptions)
     .locate({setView: true, maxZoom: 10});

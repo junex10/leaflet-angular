@@ -4,5 +4,6 @@ export {
 } from './commons/config';
 export {
     swalErrorLocation,
-    swalListPerimeter
+    swalListPerimeter,
+    swalListTypeParameter
 } from './commons/swal.common';

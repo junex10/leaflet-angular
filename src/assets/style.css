@@ -62,6 +62,25 @@ ul li{
     overflow-x: hidden;
     margin-right: 0px !important;
 }
+.typeParameters{
+    margin-right: 0px !important;
+}
+.typeParameters div i{
+    font-size: 34px;
+}
+.iconSelect{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    cursor: pointer;
+}
+.iconSelect:hover{
+    background-color: var(--verde) !important;
+    transition: .3s;
+    color: var(--white) !important;
+}
+.iconSelect:not(:hover){
+    transition: .3s;
+}
 /* Sweet alert */
 .confirmButton{
     background-color: var(--verde) !important;
@@ -72,4 +91,7 @@ ul li{
 }
 .toast-error{
     background-color: var(--rojo) !important;
+}
+.toast-info{
+    background-color: var(--azul) !important;
 }

@@ -30,3 +30,26 @@ export const swalListPerimeter = (
     confirmButtonText: 'Listo',
     showCloseButton: true
 });
+export const swalListTypeParameter = (
+    title: string = 'Tipos de parametros'
+): SweetAlertOptions => ({
+    title,
+    html: `<hr>
+        <div class='row typeParameters'>
+            <div class='col-12 col-sm-12 col-lg-6 mt-3 iconSelect'>
+                <i class="far fa-circle"></i><br/>
+                Circular
+            </div>
+            <div class='col-12 col-sm-12 col-lg-6 mt-3 iconSelect'>
+                <i class="fas fa-draw-polygon"></i><br/>
+                Poligono
+            </div>
+        </div>
+    `,
+    showCloseButton: true,
+    showConfirmButton: true,
+    confirmButtonText: 'Seleccionar',
+    customClass: {
+        confirmButton: 'confirmButton'
+    }
+})

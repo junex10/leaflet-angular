@@ -1,8 +1,10 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import Swal from 'sweetalert2';
 import {
-  swalListPerimeter
+  swalListPerimeter,
+  swalListTypeParameter
 } from 'src/app/shared/shared.index';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-sidebar',
@@ -12,14 +14,24 @@ import {
 })
 export class SidebarComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private toast: ToastrService
+  ) { }
 
   ngOnInit(): void {
-    
+    Swal.fire(
+      swalListTypeParameter()
+    )
   }
 
   openDraw = () => {
+    // Begin draw
+    //this.toast.info('Dibujado', 'Ya puede comenzar a dibujar el parametro');
 
+    // Open swettalert to set type parameter
+    Swal.fire(
+      swalListTypeParameter()
+    )
   }
 
   openList = () => {
