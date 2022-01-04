@@ -21,6 +21,8 @@ export class AppComponent implements AfterViewInit {
     zoom: 10,
     attributionControl: false
   };
+  constructor(
+  ) {}
   private initMap(): void {
     const map: any = L.map('map', this.mapOptions)
     .locate({setView: true, maxZoom: 10});
@@ -35,9 +37,6 @@ export class AppComponent implements AfterViewInit {
 
     const tiles = L.tileLayer(MAP_LAYER, MAP_OPTIONS);
     tiles.addTo(this.map);
-
-  }
-  constructor() {
 
   }
   ngAfterViewInit(): void {

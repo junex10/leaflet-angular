@@ -10,7 +10,7 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "~12.1.0",
+    "@angular/animations": "^12.1.5",
     "@angular/common": "~12.1.0",
     "@angular/compiler": "~12.1.0",
     "@angular/core": "~12.1.0",
@@ -24,6 +24,7 @@
     "leaflet": "^1.7.1",
     "moment": "^2.29.1",
     "ngx-spinner": "^13.0.0",
+    "ngx-toastr": "^14.2.1",
     "rxjs": "~6.6.0",
     "sweetalert2": "^11.3.3",
     "tslib": "^2.2.0",

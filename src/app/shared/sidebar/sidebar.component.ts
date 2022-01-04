@@ -15,6 +15,14 @@ export class SidebarComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    
+  }
+
+  openDraw = () => {
+
+  }
+
+  openList = () => {
     Swal.fire(
       swalListPerimeter(`<hr>
         <div class='row listOfParameterBox'>
@@ -27,14 +35,6 @@ export class SidebarComponent implements OnInit {
         </div>
       `)
     )
-  }
-
-  openDraw = () => {
-
-  }
-
-  openList = () => {
-
   }
 
 }
