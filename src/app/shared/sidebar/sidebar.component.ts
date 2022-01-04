@@ -16,7 +16,7 @@ export class SidebarComponent implements OnInit {
 
   ngOnInit(): void {
     Swal.fire(
-      swalListPerimeter(`
+      swalListPerimeter(`<hr>
         <div class='row listOfParameterBox'>
           <div class='col-12 listParameter'>
             <span class='mr-4'><i class="fas fa-map-marker"></i></span> Perimetro
