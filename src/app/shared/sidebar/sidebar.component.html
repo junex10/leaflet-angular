@@ -1,1 +1,12 @@
-<p>sidebar works!</p>
+<nav class="sidenav">
+    <ul class="main-buttons">
+      <li>
+        <i class="fas fa-draw-polygon"></i>
+        Perimetros
+        <ul class="hidden">
+          <li (click)='openDraw()'><i class="fas fa-draw-polygon"></i> Dibujar perimetro</li>
+          <li (click)='openList()'><i class="fas fa-clipboard-list"></i> Lista de perimetros</li>
+        </ul>
+      </li>
+    </ul>
+</nav>

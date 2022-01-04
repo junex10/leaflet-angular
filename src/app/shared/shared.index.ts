@@ -3,5 +3,6 @@ export {
     MAP_OPTIONS
 } from './commons/config';
 export {
-    swalErrorLocation
+    swalErrorLocation,
+    swalListPerimeter
 } from './commons/swal.common';

@@ -33,10 +33,6 @@ export class AppComponent implements AfterViewInit {
 
     this.map = map;
 
-    setTimeout(() => {
-      this.map.locate()
-    })
-
     const tiles = L.tileLayer(MAP_LAYER, MAP_OPTIONS);
     tiles.addTo(this.map);
 

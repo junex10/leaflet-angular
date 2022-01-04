@@ -5,15 +5,28 @@ export const swalErrorLocation = (
     text: string = 'No se pudo obtener la ubicación actual, verifique su conexión o permita a la aplicación conocer su ubicación',
     icon: string = '<i class="fas fa-map-marker-alt iconBorder"></i>',
     html: string = `
-    <div class="d-flex justify-content-center align-items-center mb-3">
-        <div class="mr-4 iconSwal">${icon}</div><hr>
-        <h3 class='mt-4 text-right'>${title}</h3>
-        <div class='mt-4'>
-            <p>${text}</p>
-        </div>
+    <div>
+        <div class="iconSwal">${icon}</div><hr>
+        <h4 class='text-center'>${title}</h4>
+        <p style='font-size: 18px;' class='mt-4'>${text}</p>
     </div>`
 ): SweetAlertOptions => ({
     html,
     showCancelButton: false,
     showConfirmButton: false
 })
+export const swalListPerimeter = (
+    html: string,
+    title: string = 'Lista de perimetros',
+    text: string = 'Listado de perimetros registrados'
+): SweetAlertOptions => ({
+    title,
+    text,
+    html,
+    showConfirmButton: true,
+    customClass: {
+        confirmButton: 'confirmButton'
+    },
+    confirmButtonText: 'Listo',
+    showCloseButton: true
+});
