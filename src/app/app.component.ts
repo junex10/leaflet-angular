@@ -5,7 +5,6 @@ import {
   MAP_OPTIONS,
   swalErrorLocation
 } from 'src/app/shared/shared.index';
-
 import Swal from 'sweetalert2';
 
 @Component({
@@ -15,6 +14,8 @@ import Swal from 'sweetalert2';
 })
 export class AppComponent implements AfterViewInit {
   title = 'map-leaflet';
+  sidebar: boolean = false;
+
   private map: any;
   private mapOptions: L.MapOptions = {
     zoom: 10,
@@ -26,10 +27,15 @@ export class AppComponent implements AfterViewInit {
 
     map.on("locationerror", () => 
       Swal.fire(swalErrorLocation())
-      //.then(() => window.location.href = window.location)
+      .then(() => window.location.href = 'https://www.google.com/')
     )
+    map.on("locationfound", () => this.sidebar = true)
 
     this.map = map;
+
+    setTimeout(() => {
+      this.map.locate()
+    })
 
     const tiles = L.tileLayer(MAP_LAYER, MAP_OPTIONS);
     tiles.addTo(this.map);

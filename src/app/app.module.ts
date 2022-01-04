@@ -5,10 +5,12 @@ import { ComponentsModule } from 'src/app/components/components.module';
 import { AppComponent } from './app.component';
 
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+import { SidebarComponent } from './shared/sidebar/sidebar.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    SidebarComponent
   ],
   imports: [
     BrowserModule,
