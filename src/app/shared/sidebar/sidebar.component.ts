@@ -73,4 +73,5 @@ export class SidebarComponent implements OnInit {
 
   openModal = () => this.openedModalDraw = true;
 
+  onShowClosed = ($event: boolean) => this.openedModalDraw = false;
 }

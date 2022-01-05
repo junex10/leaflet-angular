@@ -1,15 +1,15 @@
-<nav class="sidenav">
-  <ul class="main-buttons">
-    <li>
-      <i class="fas fa-draw-polygon"></i>
-      Perimetros
-      <ul class="hidden">
-        <li (click)='openDraw()'><i class="fas fa-draw-polygon"></i> Dibujar perimetro</li>
-        <li (click)='openList()'><i class="fas fa-clipboard-list"></i> Lista de perimetros</li>
-      </ul>
-    </li>
-  </ul>
-</nav>
-<ng-container *ngIf='openedModalDraw'>
-  <app-modal [header]="'Tipos de parametros'" [content]="parametersType" [map]="map"></app-modal>
-</ng-container>
+<div>
+  <nav class="sidenav">
+    <ul class="main-buttons">
+      <li>
+        <i class="fas fa-draw-polygon"></i>
+        Perimetros
+        <ul class="hidden">
+          <li (click)='openDraw()'><i class="fas fa-draw-polygon"></i> Dibujar perimetro</li>
+          <li (click)='openList()'><i class="fas fa-clipboard-list"></i> Lista de perimetros</li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+  <app-modal [header]="'Tipos de parametros'" [content]="parametersType" [map]="map" [show]="openedModalDraw" (newShow)="onShowClosed($event)"></app-modal>
+</div>
