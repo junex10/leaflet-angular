@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { ModalManager } from 'ngb-modal';
+import { PerimetersTypeDTO } from 'src/app/dtos/index.dto';
 
 @Component({
   selector: 'app-modal',
@@ -8,20 +9,19 @@ import { ModalManager } from 'ngb-modal';
 })
 export class ModalSiteComponent implements OnInit {
 
-  @Input('header') header: string = 'Test';
-  @Input('content') content: string = 'd';
-  @Input('footer') footer: string = 'd';
+  @Input('header') header: string = 'Modal';
+  @Input('content') content: PerimetersTypeDTO[] = [];
 
   modalRef: any;
   @ViewChild('modal') modal: any;
 
   constructor(
     private modalService: ModalManager
-  ) { 
+  ) {
   }
 
   ngOnInit() {
-    setTimeout(() => this.openModal(), 100)
+    setTimeout(() => this.openModal(), 100);
   }
 
   openModal = () => {
@@ -36,6 +36,10 @@ export class ModalSiteComponent implements OnInit {
       closeOnOutsideClick: true,
       backdropClass: "modal-backdrop"
     });
+  }
+
+  drawType = (draw: string) => {
+    console.log(draw)
   }
 
 }

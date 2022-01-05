@@ -8,7 +8,7 @@ import { ModalModule } from 'ngb-modal';
 
 import { AppComponent } from './app.component';
 import { SidebarComponent } from './shared/sidebar/sidebar.component';
-import { ModalSiteComponent } from './shared/modal/modal-site.component';
+import { ModalSiteComponent } from './shared/modal-drawperimeter/modal-site.component';
 
 @NgModule({
   declarations: [

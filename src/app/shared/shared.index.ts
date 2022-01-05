@@ -1,6 +1,7 @@
 export {
     MAP_LAYER,
-    MAP_OPTIONS
+    MAP_OPTIONS,
+    PERIMETERS_TYPE
 } from './commons/config';
 export {
     swalErrorLocation,

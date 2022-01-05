@@ -1,11 +1,14 @@
-import { Component, OnInit, ViewEncapsulation, Output, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Output } from '@angular/core';
 import Swal from 'sweetalert2';
 import {
   swalListPerimeter,
-  swalListTypeParameter
+  swalListTypeParameter,
+  PERIMETERS_TYPE
 } from 'src/app/shared/shared.index';
+import {
+  PerimetersTypeDTO
+} from 'src/app/dtos/index.dto';
 import { ToastrService } from 'ngx-toastr';
-import { ModalManager } from 'ngb-modal';
 
 @Component({
   selector: 'app-sidebar',
@@ -17,6 +20,7 @@ export class SidebarComponent implements OnInit {
 
   @Output('perimeter') perimeter: string = '';
   openedModalDraw: boolean = false;
+  parametersType: PerimetersTypeDTO[] = PERIMETERS_TYPE;
 
   constructor(
     private toast: ToastrService
@@ -29,11 +33,20 @@ export class SidebarComponent implements OnInit {
     // Begin draw
     //this.toast.info('Dibujado', 'Ya puede comenzar a dibujar el parametro');
 
-    // Open swettalert to set type parameter
-    /*Swal.fire(
-      swalListTypeParameter()
-    )*/
+    // Open modal to set type parameter
+    /*this.perimetersContent = `<hr>
+    <div class='row typeParameters'>
+        <div class='col-12 col-sm-12 col-lg-6 mt-3 iconSelect'>
+            <i class="far fa-circle"></i><br/>
+            Circular
+        </div>
+        <div class='col-12 col-sm-12 col-lg-6 mt-3 iconSelect'>
+            <i class="fas fa-draw-polygon"></i><br/>
+            Poligono
+        </div>
+    </div>`;*/
     this.openModal();
+    
   }
 
   openList = () => {
@@ -56,8 +69,6 @@ export class SidebarComponent implements OnInit {
     console.log(this.perimeter)
   }
 
-  openModal = () => {
-    this.openedModalDraw = true;
-  }
+  openModal = () => this.openedModalDraw = true;
 
 }

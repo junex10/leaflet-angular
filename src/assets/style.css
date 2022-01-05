@@ -64,6 +64,8 @@ ul li{
 }
 .typeParameters{
     margin-right: 0px !important;
+    max-height: 300px;
+    overflow-y: auto;
 }
 .typeParameters div i{
     font-size: 34px;
@@ -72,6 +74,7 @@ ul li{
     padding-top: 10px;
     padding-bottom: 10px;
     cursor: pointer;
+    text-align: center;
 }
 .iconSelect:hover{
     background-color: var(--verde) !important;
