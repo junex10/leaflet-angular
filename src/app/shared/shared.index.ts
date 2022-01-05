@@ -8,3 +8,7 @@ export {
     swalListPerimeter,
     swalListTypeParameter
 } from './commons/swal.common';
+export {
+    drawPolyline,
+    fly
+} from './commons/helper.common';

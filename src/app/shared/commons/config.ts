@@ -4,6 +4,7 @@ import {
 import { 
     PerimetersTypeDTO
 } from 'src/app/dtos/index.dto';
+import * as L from 'leaflet';
 
 export const MAP_LAYER = 'https://server.arcgisonline.com/ArcGIS/rest/services/Ocean_Basemap/MapServer/tile/{z}/{y}/{x}';
 export const MAP_OPTIONS: TileLayerOptions = {
@@ -19,6 +20,6 @@ export const PERIMETERS_TYPE: PerimetersTypeDTO[] = [
     {
         perimeter: 'Poligono',
         icon: 'fas fa-draw-polygon',
-        key: 'polygon'
+        key: 'polyline'
     }
 ];

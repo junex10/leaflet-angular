@@ -1,3 +1,4 @@
 export {
-    PerimetersTypeDTO
+    PerimetersTypeDTO,
+    CoordinatesDTO
 } from './resources/perimeters.dto';

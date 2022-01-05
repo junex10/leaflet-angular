@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import * as L from 'leaflet';
 import {
   MAP_LAYER,
@@ -12,11 +12,11 @@ import Swal from 'sweetalert2';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements AfterViewInit {
+export class AppComponent implements OnInit {
   title = 'map-leaflet';
   sidebar: boolean = false;
 
-  private map: any;
+  public map: any;
   private mapOptions: L.MapOptions = {
     zoom: 10,
     attributionControl: false
@@ -37,9 +37,8 @@ export class AppComponent implements AfterViewInit {
 
     const tiles = L.tileLayer(MAP_LAYER, MAP_OPTIONS);
     tiles.addTo(this.map);
-
   }
-  ngAfterViewInit(): void {
+  ngOnInit(): void {
     this.initMap();
   }
 }

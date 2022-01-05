@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, Output } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Output, Input, OnChanges } from '@angular/core';
 import Swal from 'sweetalert2';
 import {
   swalListPerimeter,
@@ -19,6 +19,8 @@ import { ToastrService } from 'ngx-toastr';
 export class SidebarComponent implements OnInit {
 
   @Output('perimeter') perimeter: string = '';
+  @Input('map') map: any;
+
   openedModalDraw: boolean = false;
   parametersType: PerimetersTypeDTO[] = PERIMETERS_TYPE;
 

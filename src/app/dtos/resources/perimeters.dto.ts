@@ -3,3 +3,7 @@ export interface PerimetersTypeDTO{
     icon: string,
     key: string
 }
+export interface CoordinatesDTO{
+    lat: Number,
+    long: Number
+}

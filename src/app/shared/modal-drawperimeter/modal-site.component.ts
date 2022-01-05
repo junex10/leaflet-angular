@@ -1,6 +1,10 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { ModalManager } from 'ngb-modal';
 import { PerimetersTypeDTO } from 'src/app/dtos/index.dto';
+import {
+  drawPolyline,
+  fly
+} from 'src/app/shared/shared.index';
 
 @Component({
   selector: 'app-modal',
@@ -11,6 +15,7 @@ export class ModalSiteComponent implements OnInit {
 
   @Input('header') header: string = 'Modal';
   @Input('content') content: PerimetersTypeDTO[] = [];
+  @Input('map') map: any;
 
   modalRef: any;
   @ViewChild('modal') modal: any;
@@ -39,7 +44,14 @@ export class ModalSiteComponent implements OnInit {
   }
 
   drawType = (draw: string) => {
-    console.log(draw)
+    switch(draw) {
+      case 'polyline':
+        drawPolyline(this.map, [[33.77210225140211, -90.1383973658523], [31.384411061334625, -91.07298428459194]], '#000000')
+        fly(this.map, { lat: 33.77210225140211, long: -90.1383973658523 }, 10);
+        console.log(this.map);
+        this.modalService.close(this.modal);
+      break;
+    }
   }
 
 }
