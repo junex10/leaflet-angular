@@ -23,6 +23,7 @@
     "@asymmetrik/ngx-leaflet": "^8.1.0",
     "leaflet": "^1.7.1",
     "moment": "^2.29.1",
+    "ngb-modal": "^2.0.3",
     "ngx-spinner": "^13.0.0",
     "ngx-toastr": "^14.2.1",
     "rxjs": "~6.6.0",

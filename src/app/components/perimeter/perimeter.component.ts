@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-perimeter',
@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./perimeter.component.css']
 })
 export class PerimeterComponent implements OnInit {
+
+  @Input('perimeter') perimeter: string = '';
 
   constructor() { }
 

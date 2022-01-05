@@ -1,10 +1,11 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Output, AfterViewInit, ViewChild } from '@angular/core';
 import Swal from 'sweetalert2';
 import {
   swalListPerimeter,
   swalListTypeParameter
 } from 'src/app/shared/shared.index';
 import { ToastrService } from 'ngx-toastr';
+import { ModalManager } from 'ngb-modal';
 
 @Component({
   selector: 'app-sidebar',
@@ -14,14 +15,14 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class SidebarComponent implements OnInit {
 
+  @Output('perimeter') perimeter: string = '';
+  openedModalDraw: boolean = false;
+
   constructor(
     private toast: ToastrService
   ) { }
 
   ngOnInit(): void {
-    Swal.fire(
-      swalListTypeParameter()
-    )
   }
 
   openDraw = () => {
@@ -29,9 +30,10 @@ export class SidebarComponent implements OnInit {
     //this.toast.info('Dibujado', 'Ya puede comenzar a dibujar el parametro');
 
     // Open swettalert to set type parameter
-    Swal.fire(
+    /*Swal.fire(
       swalListTypeParameter()
-    )
+    )*/
+    this.openModal();
   }
 
   openList = () => {
@@ -47,6 +49,15 @@ export class SidebarComponent implements OnInit {
         </div>
       `)
     )
+  }
+
+  perimeterDraw = (perimeter: string) => {
+    this.perimeter = perimeter;
+    console.log(this.perimeter)
+  }
+
+  openModal = () => {
+    this.openedModalDraw = true;
   }
 
 }

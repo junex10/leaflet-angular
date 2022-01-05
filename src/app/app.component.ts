@@ -1,4 +1,4 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, AfterViewInit, ViewChild } from '@angular/core';
 import * as L from 'leaflet';
 import {
   MAP_LAYER,
@@ -21,14 +21,15 @@ export class AppComponent implements AfterViewInit {
     zoom: 10,
     attributionControl: false
   };
-  constructor() {}
+  constructor(
+  ) { }
   private initMap(): void {
     const map: any = L.map('map', this.mapOptions)
-    .locate({setView: true, maxZoom: 10});
+      .locate({ setView: true, maxZoom: 10 });
 
-    map.on("locationerror", () => 
+    map.on("locationerror", () =>
       Swal.fire(swalErrorLocation())
-      .then(() => window.location.href = 'https://www.google.com/')
+        .then(() => window.location.href = 'https://www.google.com/')
     )
     map.on("locationfound", () => this.sidebar = true)
 
