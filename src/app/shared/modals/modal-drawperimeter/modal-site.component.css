@@ -1,0 +1,19 @@
+.coordinate-selected{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-left: 0px;
+    
+    cursor: pointer;
+}
+.coordinate-selected:hover{
+    background-color: var(--verde) !important;
+    transition: .3s;
+}
+.coordinate-selected:not(:hover){
+    transition: .3s;
+}
+.coordinate-box{
+    max-height: 250px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
