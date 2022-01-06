@@ -5,6 +5,15 @@
     --negro: #121212;
     --verde: #34e5a6;
 }
+/* Botones */
+.btn-success{
+    background-color: var(--verde) !important;
+    border-color: var(--verde) !important;
+}
+.btn-danger{
+    background-color: var(--rojo) !important;
+    border-color: var(--rojo) !important;
+}
 /**
 *  Icon swal
 **/
@@ -110,4 +119,18 @@ ul li{
     border-radius: 2rem 2rem 0;
     transform: rotate(45deg);
     border: 1px solid black;
+}
+/* Modal */
+.perimeterIndicator .modal{
+    width: inherit !important;
+    height: inherit !important;
+    left: 37% !important;
+}
+.sideModal{
+    top: -2% !important;
+}
+.sideModal .modal-footer{
+    display: initial !important;
+    align-items: none !important;
+    justify-content: none !important;
 }

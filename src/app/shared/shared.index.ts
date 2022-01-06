@@ -10,5 +10,6 @@ export {
 } from './commons/swal.common';
 export {
     drawPolyline,
-    fly
+    fly,
+    setMarker
 } from './commons/helper.common';

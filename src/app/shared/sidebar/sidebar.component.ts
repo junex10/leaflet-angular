@@ -71,7 +71,12 @@ export class SidebarComponent implements OnInit {
     console.log(this.perimeter)
   }
 
-  openModal = () => this.openedModalDraw = true;
+  openModal = () => {
+    this.openedModalDraw = true;
+    // Show options to stop the draw
+
+    
+  }
 
   onShowClosed = ($event: boolean) => this.openedModalDraw = false;
 }

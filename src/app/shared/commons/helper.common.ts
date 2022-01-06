@@ -8,13 +8,29 @@ import {
 * @param {string} color 
 */
 
-export const drawPolyline = async (map: any, coord: L.LatLngExpression[] | L.LatLngExpression[][], color: string) => 
-    L.polyline(coord, {color: color}).addTo(map);
+export const drawPolyline = async (map: any, coord: L.LatLngExpression[] | L.LatLngExpression[][], color: string) =>
+    L.polyline(coord, { color: color }).addTo(map);
 
 /**
 * 
-* @param {array} [latitud, longitud] // Coordenadas 
+* @param {coordinates} {lat: number, long: number} // Coordenadas 
 * @param {number} zoom // Zooom
 */
-export const fly = async (map: any, coordinates: CoordinatesDTO, zoom: number) => 
+export const fly = async (map: any, coordinates: CoordinatesDTO, zoom: number) =>
     map.flyTo([coordinates.lat, coordinates.long], zoom);
+
+/**
+* 
+* @param {number} lat // Coordenadas
+* @param {number} long // Coordenadas
+* @param {number} zoom // Zooom
+*/
+export const setMarker = (map: any, lat: number, long: number) =>
+    L.marker([lat, long], {
+        icon: L.divIcon({
+            className: "pint",
+            iconAnchor: [0, 24],
+            popupAnchor: [0, -36],
+            html: `<span class="pointMarker" />`
+        })
+    }).addTo(map);
