@@ -98,3 +98,16 @@ ul li{
 .toast-info{
     background-color: var(--azul) !important;
 }
+/* Marker */
+.pointMarker{
+    background-color: var(--blanco);
+    width: 2rem;
+    height: 2rem;
+    display: block;
+    left: -1rem;
+    top: -0.1rem;
+    position: relative;
+    border-radius: 2rem 2rem 0;
+    transform: rotate(45deg);
+    border: 1px solid black;
+}

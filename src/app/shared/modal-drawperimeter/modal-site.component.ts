@@ -6,6 +6,7 @@ import {
   drawPolyline,
   fly
 } from 'src/app/shared/shared.index';
+import * as L from 'leaflet';
 
 @Component({
   selector: 'app-modal',
@@ -55,13 +56,21 @@ export class ModalSiteComponent implements OnChanges {
   }
 
   drawType = (draw: string) => {
-    switch(draw) {
+    switch (draw) {
       case 'polyline':
         this.toast.info('Ya puede comenzar a dibujar el perimetro');
         drawPolyline(this.map, [[33.77210225140211, -90.1383973658523], [31.384411061334625, -91.07298428459194]], '#000000')
         fly(this.map, { lat: 33.77210225140211, long: -90.1383973658523 }, 10);
+        L.marker([33.77210225140211, -90.1383973658523], {
+          icon: L.divIcon({
+            className: "pint",
+            iconAnchor: [0, 24],
+            popupAnchor: [0, -36],
+            html: `<span class="pointMarker" />`
+          })
+        }).addTo(this.map);
         this.modalService.close(this.modalRef)
-      break;
+        break;
     }
   }
 }
