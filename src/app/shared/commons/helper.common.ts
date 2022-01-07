@@ -34,10 +34,3 @@ export const setMarker = (map: any, lat: any, long: any) =>
             html: `<span class="pointMarker" />`
         })
     }).addTo(map);
-
-/**
-* @function remove actual draw polyline 
-**/
-export const removeDrawPolyline = () => {
-    
-}
