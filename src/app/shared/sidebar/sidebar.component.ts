@@ -22,6 +22,7 @@ export class SidebarComponent implements OnInit {
   @Output() activatedDraw = new EventEmitter<DrawPerimeterDTO>();
 
   @Input('map') map: any;
+  @Input('listCoordenatesSelected') listCoordenatesSelected: any[] = [];
 
   openedModalDraw: boolean = false;
   parametersType: PerimetersTypeDTO[] = PERIMETERS_TYPE;

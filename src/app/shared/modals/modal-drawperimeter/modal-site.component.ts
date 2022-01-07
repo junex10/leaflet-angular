@@ -18,6 +18,7 @@ export class ModalSiteComponent implements OnChanges {
   @Input('content') content: PerimetersTypeDTO[] = [];
   @Input('map') map: any;
   @Input('show') show: boolean = false;
+  @Input('listCoordenatesSelected') listCoordenatesSelected: any[] = [];
 
   @Output() newShow = new EventEmitter<boolean>();
   @Output() canDraw = new EventEmitter<DrawPerimeterDTO>();

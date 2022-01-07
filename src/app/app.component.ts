@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import * as L from 'leaflet';
 import {
   MAP_LAYER,
@@ -31,6 +31,7 @@ export class AppComponent implements OnInit {
   drawMarked: any[] = []; // Coordinates temporaly marked
   drawMarkedtmp: any;
   drawPolylinesRecorded: any[] = [];
+  @Output() drawMarkedComunicate = new EventEmitter<any[]>();
 
   public map: any;
   private mapOptions: L.MapOptions = {
@@ -69,7 +70,7 @@ export class AppComponent implements OnInit {
     switch (this.actualActionInMap) {
       case 'none':
         // Set actual coordenates
-        break;
+      break;
       case 'polyline':
         // Obtain actually coordinate to clicked
         this.map.on('click', (e: any) => {
@@ -78,7 +79,7 @@ export class AppComponent implements OnInit {
             this.drawMarked.push([coordinates.lat, coordinates.long]);
 
             this.drawMarkedtmp = drawPolyline(this.map, this.drawMarked, '#000000');
-            const marker = setMarker(this.map, coordinates.lat, coordinates.long);
+            setMarker(this.map, coordinates.lat, coordinates.long);
             
             this.drawMarkedtmp.then((polylines: any) => {
               this.drawPolylinesRecorded.push(polylines);
@@ -89,7 +90,7 @@ export class AppComponent implements OnInit {
                   }
                 })
               }
-            })
+            });
 
             this.countActionsDraw++;
             this.countActionsDraw = 0;

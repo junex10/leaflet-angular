@@ -2,7 +2,11 @@
     <div class="map-frame">
         <div id="map" (click)='actionMap()'></div>
         <ng-container>
-            <app-sidebar [map]="map" (activatedDraw)="draw($event)"></app-sidebar>
+            <app-sidebar 
+                [map]="map" 
+                (activatedDraw)="draw($event)" 
+                [listCoordenatesSelected]="drawMarked">
+            </app-sidebar>
         </ng-container>
     </div>
 </div>
