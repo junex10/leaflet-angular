@@ -28,7 +28,9 @@ export class AppComponent implements OnInit {
   openDrawPerimeter: boolean = false;
 
   countActionsDraw = 0;
-  drawMarked = [{}]; // Coordinates temporaly marked -> Solved lenght - as object empty
+  drawMarked: any[] = []; // Coordinates temporaly marked
+  drawMarkedtmp: any;
+  drawPolylinesRecorded: any[] = [];
 
   public map: any;
   private mapOptions: L.MapOptions = {
@@ -64,27 +66,37 @@ export class AppComponent implements OnInit {
   actionMap = () => {
     this.countActionsDraw = 1;
     // Actions in the map
-    switch(this.actualActionInMap) {
+    switch (this.actualActionInMap) {
       case 'none':
         // Set actual coordenates
-      break;
+        break;
       case 'polyline':
         // Obtain actually coordinate to clicked
         this.map.on('click', (e: any) => {
           if (this.countActionsDraw == 1) {
             const coordinates: CoordinatesDTO = { lat: e.latlng.lat, long: e.latlng.lng };
-            this.drawMarked.push([ coordinates.lat, coordinates.long ]);
-            console.log(this.drawMarked);
-            //drawPolyline(this.map, [[33.77210225140211, -90.1383973658523], [31.384411061334625, -91.07298428459194]], '#000000') -> Crear un helper para esto
+            this.drawMarked.push([coordinates.lat, coordinates.long]);
+
+            this.drawMarkedtmp = drawPolyline(this.map, this.drawMarked, '#000000');
+            const marker = setMarker(this.map, coordinates.lat, coordinates.long);
+            
+            this.drawMarkedtmp.then((polylines: any) => {
+              this.drawPolylinesRecorded.push(polylines);
+              if (this.drawPolylinesRecorded.length > 0) {
+                this.drawPolylinesRecorded.map((lines: any, index: any) => {
+                  if (index !== this.drawPolylinesRecorded.length-1) {
+                    this.map.removeLayer(lines);
+                  }
+                })
+              }
+            })
+
             this.countActionsDraw++;
             this.countActionsDraw = 0;
           }
         });
-        //drawPolyline(this.map, [[33.77210225140211, -90.1383973658523], [31.384411061334625, -91.07298428459194]], '#000000')
-        /*fly(this.map, { lat: 33.77210225140211, long: -90.1383973658523 }, 10);*/
-        //setMarker(this.map, 33.77210225140211, -90.1383973658523);
-      break;
+        break;
     }
-    
+
   }
 }

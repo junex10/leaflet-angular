@@ -25,7 +25,7 @@ export const fly = async (map: any, coordinates: CoordinatesDTO, zoom: number) =
 * @param {number} long // Coordenadas
 * @param {number} zoom // Zooom
 */
-export const setMarker = (map: any, lat: number, long: number) =>
+export const setMarker = (map: any, lat: any, long: any) =>
     L.marker([lat, long], {
         icon: L.divIcon({
             className: "pint",
@@ -34,3 +34,10 @@ export const setMarker = (map: any, lat: number, long: number) =>
             html: `<span class="pointMarker" />`
         })
     }).addTo(map);
+
+/**
+* @function remove actual draw polyline 
+**/
+export const removeDrawPolyline = () => {
+    
+}
