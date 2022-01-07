@@ -97,4 +97,6 @@ export class ModalSiteComponent implements OnChanges {
       this.toast.info('Ha cancelado para dibujar el perimetro');
     });
   }
+
+  closeModalIndicator = () => this.modalService.close(this.modalIndicatorRef)
 }

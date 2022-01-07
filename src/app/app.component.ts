@@ -67,37 +67,42 @@ export class AppComponent implements OnInit {
   actionMap = () => {
     this.countActionsDraw = 1;
     // Actions in the map
-    switch (this.actualActionInMap) {
-      case 'none':
-        // Set actual coordenates
-      break;
-      case 'polyline':
-        // Obtain actually coordinate to clicked
-        this.map.on('click', (e: any) => {
-          if (this.countActionsDraw == 1) {
-            const coordinates: CoordinatesDTO = { lat: e.latlng.lat, long: e.latlng.lng };
-            this.drawMarked.push([coordinates.lat, coordinates.long]);
-
-            this.drawMarkedtmp = drawPolyline(this.map, this.drawMarked, '#000000');
-            setMarker(this.map, coordinates.lat, coordinates.long);
-            
-            this.drawMarkedtmp.then((polylines: any) => {
-              this.drawPolylinesRecorded.push(polylines);
-              if (this.drawPolylinesRecorded.length > 0) {
-                this.drawPolylinesRecorded.map((lines: any, index: any) => {
-                  if (index !== this.drawPolylinesRecorded.length-1) {
-                    this.map.removeLayer(lines);
-                  }
-                })
-              }
-            });
-
-            this.countActionsDraw++;
-            this.countActionsDraw = 0;
-          }
-        });
+    
+    this.map.on('click', (e: any) => {
+      switch (this.actualActionInMap) {
+        case 'none':
+          // Set actual coordenates
+          console.log(' aqui ')
+          break;
+        case 'polyline':
+          // Obtain actually coordinate to clicked
+          this.polyline(this.countActionsDraw, e);
         break;
-    }
+      }
+    });
+  }
 
+  polyline = (count: number, eventMap: any) => {
+    if (count == 1) {
+      const coordinates: CoordinatesDTO = { lat: eventMap.latlng.lat, long: eventMap.latlng.lng };
+      this.drawMarked.push([coordinates.lat, coordinates.long]);
+
+      this.drawMarkedtmp = drawPolyline(this.map, this.drawMarked, '#000000');
+      setMarker(this.map, coordinates.lat, coordinates.long);
+
+      this.drawMarkedtmp.then((polylines: any) => {
+        this.drawPolylinesRecorded.push(polylines);
+        if (this.drawPolylinesRecorded.length > 0) {
+          this.drawPolylinesRecorded.map((lines: any, index: any) => {
+            if (index !== this.drawPolylinesRecorded.length - 1) {
+              this.map.removeLayer(lines);
+            }
+          })
+        }
+      });
+
+      count++;
+      count = 0;
+    }
   }
 }

@@ -40,14 +40,6 @@
                         <input class='form-control' type='text' id='longitud' disabled [value]="i[1]">
                     </div>
                 </div>
-                <!--<div class='col-12 row coordinate-selected'>
-                    <div class='col-12 col-sm-12 col-md-6 col-lg-6'>
-                        <input class='form-control' type='text' id='latitud' disabled [value]="'33.77210225140211'">
-                    </div>
-                    <div class='col-12 col-sm-12 col-md-6 col-lg-6'>
-                        <input class='form-control' type='text' id='longitud' disabled [value]="'-90.1383973658523'">
-                    </div>
-                </div>-->
             </div>
         </div>
     </modal-content>
@@ -57,7 +49,7 @@
                 <button type='button' class='btn btn-block btn-success'>Listo</button>
             </div>
             <div class='col-12 col-sm-12 col-md-6 col-lg-6'>
-                <button type='button' class='btn btn-block btn-danger'>Cancelar</button>
+                <button type='button' class='btn btn-block btn-danger' (click)='closeModalIndicator()'>Cancelar</button>
             </div>
         </div>
     </modal-footer>
