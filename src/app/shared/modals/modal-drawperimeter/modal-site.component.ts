@@ -1,13 +1,10 @@
 import { Component, Input, ViewChild, OnChanges, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 import { ModalManager } from 'ngb-modal';
 import { ToastrService } from 'ngx-toastr';
-import { PerimetersTypeDTO } from 'src/app/dtos/index.dto';
-import {
-  drawPolyline,
-  fly,
-  setMarker
-} from 'src/app/shared/shared.index';
-import * as L from 'leaflet';
+import { 
+  PerimetersTypeDTO,
+  DrawPerimeterDTO
+} from 'src/app/dtos/index.dto';
 
 @Component({
   selector: 'app-modal',
@@ -23,6 +20,7 @@ export class ModalSiteComponent implements OnChanges {
   @Input('show') show: boolean = false;
 
   @Output() newShow = new EventEmitter<boolean>();
+  @Output() canDraw = new EventEmitter<DrawPerimeterDTO>();
 
   modalRef: any;
   @ViewChild('modal') modal: any;
@@ -64,10 +62,13 @@ export class ModalSiteComponent implements OnChanges {
     switch (draw) {
       case 'polyline':
         this.toast.info('Ya puede comenzar a dibujar el perimetro');
-        /*drawPolyline(this.map, [[33.77210225140211, -90.1383973658523], [31.384411061334625, -91.07298428459194]], '#000000')
-        fly(this.map, { lat: 33.77210225140211, long: -90.1383973658523 }, 10);*/
-        //setMarker(this.map, 33.77210225140211, -90.1383973658523);
-        //this.modalIndicatorShow = true;
+        
+        // Emit order to can draw in the map
+        
+        this.canDraw.emit({
+          perimeterType: 'polyline',
+          draw: true
+        });
         this.openModalIndicator();
         this.modalService.close(this.modalRef)
         break;
@@ -86,5 +87,13 @@ export class ModalSiteComponent implements OnChanges {
       closeOnOutsideClick: true,
       backdropClass: "none",
     })
+    this.modalIndicatorRef.onClose.subscribe(() => {
+      this.show = false;
+      this.canDraw.emit({
+        perimeterType: 'none',
+        draw: false
+      });
+      this.toast.info('Ha cancelado para dibujar el perimetro');
+    });
   }
 }

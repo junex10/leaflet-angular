@@ -12,4 +12,5 @@
     height: 100%;
     width: 85.6%;
     float: right;
+    cursor: crosshair !important;
 }

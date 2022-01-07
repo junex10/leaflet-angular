@@ -11,5 +11,12 @@
       </li>
     </ul>
   </nav>
-  <app-modal [header]="'Tipos de parametros'" [content]="parametersType" [map]="map" [show]="openedModalDraw" (newShow)="onShowClosed($event)"></app-modal>
+  <app-modal 
+    [header]="'Tipos de parametros'" 
+    [content]="parametersType" 
+    [map]="map" 
+    [show]="openedModalDraw" 
+    (newShow)="onShowClosed($event)"
+    (canDraw)="canDraw($event)"
+  ></app-modal>
 </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, Output, Input, OnChanges } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Output, Input, EventEmitter } from '@angular/core';
 import Swal from 'sweetalert2';
 import {
   swalListPerimeter,
@@ -6,7 +6,8 @@ import {
   PERIMETERS_TYPE
 } from 'src/app/shared/shared.index';
 import {
-  PerimetersTypeDTO
+  PerimetersTypeDTO,
+  DrawPerimeterDTO
 } from 'src/app/dtos/index.dto';
 import { ToastrService } from 'ngx-toastr';
 
@@ -18,7 +19,8 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class SidebarComponent implements OnInit {
 
-  @Output('perimeter') perimeter: string = '';
+  @Output() activatedDraw = new EventEmitter<DrawPerimeterDTO>();
+
   @Input('map') map: any;
 
   openedModalDraw: boolean = false;
@@ -36,19 +38,8 @@ export class SidebarComponent implements OnInit {
     //this.toast.info('Dibujado', 'Ya puede comenzar a dibujar el parametro');
 
     // Open modal to set type parameter
-    /*this.perimetersContent = `<hr>
-    <div class='row typeParameters'>
-        <div class='col-12 col-sm-12 col-lg-6 mt-3 iconSelect'>
-            <i class="far fa-circle"></i><br/>
-            Circular
-        </div>
-        <div class='col-12 col-sm-12 col-lg-6 mt-3 iconSelect'>
-            <i class="fas fa-draw-polygon"></i><br/>
-            Poligono
-        </div>
-    </div>`;*/
+  
     this.openModal();
-    
   }
 
   openList = () => {
@@ -66,11 +57,6 @@ export class SidebarComponent implements OnInit {
     )
   }
 
-  perimeterDraw = (perimeter: string) => {
-    this.perimeter = perimeter;
-    console.log(this.perimeter)
-  }
-
   openModal = () => {
     this.openedModalDraw = true;
     // Show options to stop the draw
@@ -79,4 +65,6 @@ export class SidebarComponent implements OnInit {
   }
 
   onShowClosed = ($event: boolean) => this.openedModalDraw = false;
+
+  canDraw = ($event: DrawPerimeterDTO) => this.activatedDraw.emit($event);
 }
