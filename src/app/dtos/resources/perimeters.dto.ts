@@ -16,6 +16,3 @@ export interface PerimeterInProcessDTO{
     perimeter?: any;
     markers?: any[];
 }
-export interface PerimeterCoordinatesDTO{
-    
-}
