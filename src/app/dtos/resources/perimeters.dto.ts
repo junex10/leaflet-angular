@@ -11,3 +11,11 @@ export interface DrawPerimeterDTO{
     perimeterType: string,
     draw: boolean
 }
+export interface PerimeterInProcessDTO{
+    perimeterType?: string;
+    perimeter?: any;
+    markers?: any[];
+}
+export interface PerimeterCoordinatesDTO{
+    
+}

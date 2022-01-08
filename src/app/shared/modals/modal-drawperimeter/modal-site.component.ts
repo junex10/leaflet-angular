@@ -3,7 +3,8 @@ import { ModalManager } from 'ngb-modal';
 import { ToastrService } from 'ngx-toastr';
 import { 
   PerimetersTypeDTO,
-  DrawPerimeterDTO
+  DrawPerimeterDTO,
+  PerimeterInProcessDTO
 } from 'src/app/dtos/index.dto';
 
 @Component({
@@ -19,9 +20,11 @@ export class ModalSiteComponent implements OnChanges {
   @Input('map') map: any;
   @Input('show') show: boolean = false;
   @Input('listCoordenatesSelected') listCoordenatesSelected: any[] = [];
+  @Input('perimeterInProcess') perimeterInProcess: PerimeterInProcessDTO = {};
 
   @Output() newShow = new EventEmitter<boolean>();
   @Output() canDraw = new EventEmitter<DrawPerimeterDTO>();
+  @Output() newListCoordenatesSelected = new EventEmitter<any[]>();
 
   modalRef: any;
   @ViewChild('modal') modal: any;
@@ -94,6 +97,12 @@ export class ModalSiteComponent implements OnChanges {
         perimeterType: 'none',
         draw: false
       });
+
+      this.listCoordenatesSelected = [];
+      this.newListCoordenatesSelected.emit(this.listCoordenatesSelected);
+      this.map.removeLayer(this.perimeterInProcess.perimeter);
+      this.perimeterInProcess.markers?.map(m => this.map.removeLayer(m));
+
       this.toast.info('Ha cancelado para dibujar el perimetro');
     });
   }

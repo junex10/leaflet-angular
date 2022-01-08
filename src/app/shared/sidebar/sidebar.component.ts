@@ -7,7 +7,8 @@ import {
 } from 'src/app/shared/shared.index';
 import {
   PerimetersTypeDTO,
-  DrawPerimeterDTO
+  DrawPerimeterDTO,
+  PerimeterInProcessDTO
 } from 'src/app/dtos/index.dto';
 import { ToastrService } from 'ngx-toastr';
 
@@ -20,9 +21,11 @@ import { ToastrService } from 'ngx-toastr';
 export class SidebarComponent implements OnInit {
 
   @Output() activatedDraw = new EventEmitter<DrawPerimeterDTO>();
+  @Output() resetListCoordenates = new EventEmitter<any[]>();
 
   @Input('map') map: any;
   @Input('listCoordenatesSelected') listCoordenatesSelected: any[] = [];
+  @Input('perimeterInProcess') perimeterInProcess: PerimeterInProcessDTO = {};
 
   openedModalDraw: boolean = false;
   parametersType: PerimetersTypeDTO[] = PERIMETERS_TYPE;
@@ -61,11 +64,12 @@ export class SidebarComponent implements OnInit {
   openModal = () => {
     this.openedModalDraw = true;
     // Show options to stop the draw
-
     
   }
 
   onShowClosed = ($event: boolean) => this.openedModalDraw = false;
 
   canDraw = ($event: DrawPerimeterDTO) => this.activatedDraw.emit($event);
+
+  newListCoordenatesSelected = ($event: any[]) => this.resetListCoordenates.emit($event)
 }

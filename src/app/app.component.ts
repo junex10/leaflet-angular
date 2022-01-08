@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import * as L from 'leaflet';
 import {
   MAP_LAYER,
@@ -10,7 +10,11 @@ import {
 } from 'src/app/shared/shared.index';
 import {
   DrawPerimeterDTO,
-  CoordinatesDTO
+  CoordinatesDTO,
+  DataMapDTO,
+  PerimetersDTO,
+  PerimetersRegisteredDTO,
+  PerimeterInProcessDTO
 } from 'src/app/dtos/index.dto';
 import Swal from 'sweetalert2';
 
@@ -21,6 +25,13 @@ import Swal from 'sweetalert2';
 })
 export class AppComponent implements OnInit {
   title = 'map-leaflet';
+  dataMap: DataMapDTO = {
+    perimeters: {
+      perimetersRegistered: []
+    }
+  };
+  dataMapStorage: any = {};
+
   sidebar: boolean = false;
 
   actualActionInMap: string = 'none';
@@ -31,7 +42,14 @@ export class AppComponent implements OnInit {
   drawMarked: any[] = []; // Coordinates temporaly marked
   drawMarkedtmp: any;
   drawPolylinesRecorded: any[] = [];
+  perimeterInProcess: PerimeterInProcessDTO = {};
+  actualPointMarked: any[] = [];
+
+  // Draw output
+
   @Output() drawMarkedComunicate = new EventEmitter<any[]>();
+
+  @Input('')
 
   public map: any;
   private mapOptions: L.MapOptions = {
@@ -41,6 +59,10 @@ export class AppComponent implements OnInit {
   constructor(
   ) { }
   private initMap(): void {
+    if (window.localStorage.getItem('dataMap') === null) {
+      window.localStorage.setItem('dataMap', JSON.stringify(this.dataMap));
+    } else this.dataMapStorage = window.localStorage.getItem('dataMap');
+
     const map: any = L.map('map', this.mapOptions)
       .locate({ setView: true, maxZoom: 10 });
 
@@ -48,7 +70,7 @@ export class AppComponent implements OnInit {
       Swal.fire(swalErrorLocation())
         .then(() => window.location.href = 'https://www.google.com/')
     )
-    map.on("locationfound", () => this.sidebar = true)
+    map.on("locationfound", () => this.sidebar = true);
 
     this.map = map;
 
@@ -67,42 +89,47 @@ export class AppComponent implements OnInit {
   actionMap = () => {
     this.countActionsDraw = 1;
     // Actions in the map
-    
-    this.map.on('click', (e: any) => {
-      switch (this.actualActionInMap) {
-        case 'none':
-          // Set actual coordenates
-          console.log(' aqui ')
-          break;
-        case 'polyline':
-          // Obtain actually coordinate to clicked
-          this.polyline(this.countActionsDraw, e);
+    switch (this.actualActionInMap) {
+      case 'none':
+        // Set actual coordenates
         break;
-      }
-    });
-  }
-
-  polyline = (count: number, eventMap: any) => {
-    if (count == 1) {
-      const coordinates: CoordinatesDTO = { lat: eventMap.latlng.lat, long: eventMap.latlng.lng };
-      this.drawMarked.push([coordinates.lat, coordinates.long]);
-
-      this.drawMarkedtmp = drawPolyline(this.map, this.drawMarked, '#000000');
-      setMarker(this.map, coordinates.lat, coordinates.long);
-
-      this.drawMarkedtmp.then((polylines: any) => {
-        this.drawPolylinesRecorded.push(polylines);
-        if (this.drawPolylinesRecorded.length > 0) {
-          this.drawPolylinesRecorded.map((lines: any, index: any) => {
-            if (index !== this.drawPolylinesRecorded.length - 1) {
-              this.map.removeLayer(lines);
-            }
-          })
-        }
-      });
-
-      count++;
-      count = 0;
+      case 'polyline':
+        // Obtain actually coordinate to clicked
+        this.polyline(this.countActionsDraw);
+        break;
     }
   }
+
+  polyline = (count: number) => {
+    this.map.on('click', (e: any) => {
+      if (count == 1) {
+        const coordinates: CoordinatesDTO = { lat: e.latlng.lat, long: e.latlng.lng };
+        this.drawMarked.push([coordinates.lat, coordinates.long]);
+
+        this.drawMarkedtmp = drawPolyline(this.map, this.drawMarked, '#000000');
+        this.actualPointMarked.push(setMarker(this.map, coordinates.lat, coordinates.long));
+
+        this.drawMarkedtmp.then((polylines: any) => {
+          this.drawPolylinesRecorded.push(polylines);
+          if (this.drawPolylinesRecorded.length > 0) {
+            this.drawPolylinesRecorded.map((lines: any, index: any) => {
+              if (index !== this.drawPolylinesRecorded.length - 1) {
+                this.map.removeLayer(lines);
+              } else {
+                this.perimeterInProcess = {
+                  perimeter: lines,
+                  perimeterType: 'polyline',
+                  markers: this.actualPointMarked
+                };
+              }
+            })
+          }
+        });
+        count++;
+        count = 0;
+      }
+    });
+
+  }
+  resetListCoordenates = () => this.drawMarked = [];
 }

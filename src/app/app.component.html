@@ -5,7 +5,10 @@
             <app-sidebar 
                 [map]="map" 
                 (activatedDraw)="draw($event)" 
-                [listCoordenatesSelected]="drawMarked">
+                [listCoordenatesSelected]="drawMarked"
+                [perimeterInProcess]="perimeterInProcess"
+                (resetListCoordenates)="resetListCoordenates()"
+            >
             </app-sidebar>
         </ng-container>
     </div>
