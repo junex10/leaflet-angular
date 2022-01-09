@@ -16,10 +16,11 @@
     [content]="parametersType" 
     [map]="map" 
     [show]="openedModalDraw" 
-    (newShow)="onShowClosed($event)"
+    (newShow)="onShowClosed()"
     (canDraw)="canDraw($event)"
     [listCoordenatesSelected]="listCoordenatesSelected"
     [perimeterInProcess]="perimeterInProcess"
     (newListCoordenatesSelected)="newListCoordenatesSelected($event)"
+    (registerNewDraw)="registerNewDrawSend($event)"
   ></app-modal>
 </div>

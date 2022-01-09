@@ -5,6 +5,8 @@ export interface PerimetersDTO{
     perimetersRegistered?: PerimetersRegisteredDTO[];
 }
 export interface PerimetersRegisteredDTO{
-    perimeter: any;
+    perimeterName?: string;
     perimeterType: string;
+    perimeterColor?: string;
+    perimeterCoordinates: any[];
 }

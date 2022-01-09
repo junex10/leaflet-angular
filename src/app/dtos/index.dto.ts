@@ -2,7 +2,8 @@ export {
     PerimetersTypeDTO,
     CoordinatesDTO,
     DrawPerimeterDTO,
-    PerimeterInProcessDTO
+    PerimeterInProcessDTO,
+    PerimeterRegisterDTO
 } from './resources/perimeters.dto';
 export {
     DataMapDTO,

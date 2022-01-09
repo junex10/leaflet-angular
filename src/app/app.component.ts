@@ -14,7 +14,8 @@ import {
   DataMapDTO,
   PerimetersDTO,
   PerimetersRegisteredDTO,
-  PerimeterInProcessDTO
+  PerimeterInProcessDTO,
+  PerimeterRegisterDTO
 } from 'src/app/dtos/index.dto';
 import Swal from 'sweetalert2';
 
@@ -38,6 +39,8 @@ export class AppComponent implements OnInit {
 
   openDrawPerimeter: boolean = false;
 
+  // Perimeter
+
   countActionsDraw = 0;
   drawMarked: any[] = []; // Coordinates temporaly marked
   drawMarkedtmp: any;
@@ -48,8 +51,6 @@ export class AppComponent implements OnInit {
   // Draw output
 
   @Output() drawMarkedComunicate = new EventEmitter<any[]>();
-
-  @Input('')
 
   public map: any;
   private mapOptions: L.MapOptions = {
@@ -132,4 +133,16 @@ export class AppComponent implements OnInit {
 
   }
   resetListCoordenates = () => this.drawMarked = [];
+
+  registerNewDraw = ($event: PerimeterRegisterDTO) => {
+    const newPerimeter: PerimetersRegisteredDTO = {
+      perimeterName: $event.perimeter,
+      perimeterType: $event.perimeterType,
+      perimeterColor: $event.perimeterColor,
+      perimeterCoordinates: $event.perimeterCoordinates
+    };
+    this.dataMap.perimeters?.perimetersRegistered?.push(newPerimeter)
+    this.dataMapStorage = this.dataMap
+    window.localStorage.setItem("dataMap", JSON.stringify(this.dataMapStorage))
+  }
 }

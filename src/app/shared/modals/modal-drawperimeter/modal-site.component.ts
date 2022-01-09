@@ -4,7 +4,8 @@ import { ToastrService } from 'ngx-toastr';
 import { 
   PerimetersTypeDTO,
   DrawPerimeterDTO,
-  PerimeterInProcessDTO
+  PerimeterInProcessDTO,
+  PerimeterRegisterDTO
 } from 'src/app/dtos/index.dto';
 
 @Component({
@@ -25,12 +26,18 @@ export class ModalSiteComponent implements OnChanges {
   @Output() newShow = new EventEmitter<boolean>();
   @Output() canDraw = new EventEmitter<DrawPerimeterDTO>();
   @Output() newListCoordenatesSelected = new EventEmitter<any[]>();
+  @Output() registerNewDraw = new EventEmitter<PerimeterRegisterDTO>();
 
   modalRef: any;
   @ViewChild('modal') modal: any;
 
   modalIndicatorRef: any;
   @ViewChild('modalIndicator') modalIndicator: any;
+
+  drawWay: boolean = false;
+  perimeterType: string = 'none';
+  perimeterName: string = 'Nombre del perimetro';
+  perimeterColor: string = '#000000';
 
   constructor(
     private modalService: ModalManager,
@@ -63,6 +70,7 @@ export class ModalSiteComponent implements OnChanges {
   }
 
   drawType = (draw: string) => {
+    this.perimeterType = draw;
     switch (draw) {
       case 'polyline':
         this.toast.info('Ya puede comenzar a dibujar el perimetro');
@@ -75,7 +83,7 @@ export class ModalSiteComponent implements OnChanges {
         });
         this.openModalIndicator();
         this.modalService.close(this.modalRef)
-        break;
+      break;
     }
   }
 
@@ -103,9 +111,23 @@ export class ModalSiteComponent implements OnChanges {
       this.map.removeLayer(this.perimeterInProcess.perimeter);
       this.perimeterInProcess.markers?.map(m => this.map.removeLayer(m));
 
-      this.toast.info('Ha cancelado para dibujar el perimetro');
+      this.drawWay == false ? this.toast.info('Ha cancelado para dibujar el perimetro') : this.toast.success('Ha registrado el nuevo perimetro');
+      this.drawWay = false;
     });
   }
 
-  closeModalIndicator = () => this.modalService.close(this.modalIndicatorRef)
+  closeModalIndicator = () => 
+    this.modalService.close(this.modalIndicatorRef);
+
+  registerDraw = () => {
+    const perimeterRegister: PerimeterRegisterDTO = {
+      perimeterType: this.perimeterType,
+      perimeter: this.perimeterName,
+      perimeterColor: this.perimeterColor,
+      perimeterCoordinates: this.listCoordenatesSelected
+    };
+    this.drawWay = true;
+    this.closeModalIndicator();
+    this.registerNewDraw.emit(perimeterRegister);
+  }
 }

@@ -16,3 +16,9 @@ export interface PerimeterInProcessDTO{
     perimeter?: any;
     markers?: any[];
 }
+export interface PerimeterRegisterDTO{
+    perimeterType: string;
+    perimeter?: string;
+    perimeterColor?: string;
+    perimeterCoordinates: any[];
+}
