@@ -114,7 +114,7 @@ export class AppComponent implements OnInit {
         this.actualPointMarked.push(markedDraw);
 
         this.actualPointMarked[0].bindPopup(`<b>Punto inicial</b>`).openPopup();
-        this.actualPointMarked[0].on('click', (point: any) => {
+        this.actualPointMarked[0].on('click', () => {
           Swal.fire(swalAuthAction('¿Desea confirmar el perimetro?', 'Confirmar', 'Cancelar'))
           .then(() => this.confirmDraw = true)
         })
