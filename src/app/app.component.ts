@@ -5,8 +5,8 @@ import {
   MAP_OPTIONS,
   swalErrorLocation,
   drawPolyline,
-  fly,
-  setMarker
+  setMarker,
+  swalAuthAction
 } from 'src/app/shared/shared.index';
 import {
   DrawPerimeterDTO,
@@ -17,6 +17,9 @@ import {
   PerimeterInProcessDTO,
   PerimeterRegisterDTO
 } from 'src/app/dtos/index.dto';
+import {
+  MapService
+} from 'src/app/services/index.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -26,12 +29,7 @@ import Swal from 'sweetalert2';
 })
 export class AppComponent implements OnInit {
   title = 'map-leaflet';
-  dataMap: DataMapDTO = {
-    perimeters: {
-      perimetersRegistered: []
-    }
-  };
-  dataMapStorage: any = {};
+  dataMap: DataMapDTO = {};
 
   sidebar: boolean = false;
 
@@ -47,6 +45,7 @@ export class AppComponent implements OnInit {
   drawPolylinesRecorded: any[] = [];
   perimeterInProcess: PerimeterInProcessDTO = {};
   actualPointMarked: any[] = [];
+  confirmDraw: boolean = false;
 
   // Draw output
 
@@ -58,12 +57,13 @@ export class AppComponent implements OnInit {
     attributionControl: false
   };
   constructor(
-  ) { }
+    private mapService: MapService
+  ) {
+    this.dataMap = this.mapService.getDataMap();
+  }
   private initMap(): void {
-    if (window.localStorage.getItem('dataMap') === null) {
-      window.localStorage.setItem('dataMap', JSON.stringify(this.dataMap));
-    } else this.dataMapStorage = window.localStorage.getItem('dataMap');
-
+    if (window.localStorage.getItem('dataMap') === null) window.localStorage.setItem('dataMap', JSON.stringify(this.dataMap));
+    
     const map: any = L.map('map', this.mapOptions)
       .locate({ setView: true, maxZoom: 10 });
 
@@ -108,7 +108,16 @@ export class AppComponent implements OnInit {
         this.drawMarked.push([coordinates.lat, coordinates.long]);
 
         this.drawMarkedtmp = drawPolyline(this.map, this.drawMarked, '#000000');
-        this.actualPointMarked.push(setMarker(this.map, coordinates.lat, coordinates.long));
+        const markedDraw = setMarker(this.map, coordinates.lat, coordinates.long);
+        markedDraw.bindPopup(`Coordenadas: ${coordinates.lat} - ${coordinates.long}`);
+        this.map.addLayer(markedDraw);
+        this.actualPointMarked.push(markedDraw);
+
+        this.actualPointMarked[0].bindPopup(`<b>Punto inicial</b>`).openPopup();
+        this.actualPointMarked[0].on('click', (point: any) => {
+          Swal.fire(swalAuthAction('¿Desea confirmar el perimetro?', 'Confirmar', 'Cancelar'))
+          .then(() => this.confirmDraw = true)
+        })
 
         this.drawMarkedtmp.then((polylines: any) => {
           this.drawPolylinesRecorded.push(polylines);
@@ -141,8 +150,9 @@ export class AppComponent implements OnInit {
       perimeterColor: $event.perimeterColor,
       perimeterCoordinates: $event.perimeterCoordinates
     };
-    this.dataMap.perimeters?.perimetersRegistered?.push(newPerimeter)
-    this.dataMapStorage = this.dataMap
-    window.localStorage.setItem("dataMap", JSON.stringify(this.dataMapStorage))
+    if (newPerimeter.perimeterCoordinates.length > 0) {
+      this.dataMap.perimeters?.perimetersRegistered?.push(newPerimeter);
+      window.localStorage.setItem('dataMap', JSON.stringify(this.dataMap));
+    }
   }
 }

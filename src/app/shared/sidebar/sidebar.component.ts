@@ -2,7 +2,6 @@ import { Component, OnInit, ViewEncapsulation, Output, Input, EventEmitter } fro
 import Swal from 'sweetalert2';
 import {
   swalListPerimeter,
-  swalListTypeParameter,
   PERIMETERS_TYPE
 } from 'src/app/shared/shared.index';
 import {
@@ -28,12 +27,12 @@ export class SidebarComponent implements OnInit {
   @Input('map') map: any;
   @Input('listCoordenatesSelected') listCoordenatesSelected: any[] = [];
   @Input('perimeterInProcess') perimeterInProcess: PerimeterInProcessDTO = {};
+  @Input('confirmDraw') confirmDraw: boolean = false;
 
   openedModalDraw: boolean = false;
   parametersType: PerimetersTypeDTO[] = PERIMETERS_TYPE;
 
   constructor(
-    private toast: ToastrService
   ) { }
 
   ngOnInit(): void {

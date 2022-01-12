@@ -22,6 +22,7 @@ export class ModalSiteComponent implements OnChanges {
   @Input('show') show: boolean = false;
   @Input('listCoordenatesSelected') listCoordenatesSelected: any[] = [];
   @Input('perimeterInProcess') perimeterInProcess: PerimeterInProcessDTO = {};
+  @Input('confirmDraw') confirmDraw: boolean = false;
 
   @Output() newShow = new EventEmitter<boolean>();
   @Output() canDraw = new EventEmitter<DrawPerimeterDTO>();
@@ -49,6 +50,7 @@ export class ModalSiteComponent implements OnChanges {
     if (this.show) {
       setTimeout(() => this.openModal(), 100);
     }
+    if (this.confirmDraw === true) this.registerDraw();
   }
 
   openModal = () => {

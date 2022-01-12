@@ -6,7 +6,7 @@ export {
 export {
     swalErrorLocation,
     swalListPerimeter,
-    swalListTypeParameter
+    swalAuthAction
 } from './commons/swal.common';
 export {
     drawPolyline,
