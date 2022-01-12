@@ -152,7 +152,7 @@ export class AppComponent implements OnInit {
     };
     if (newPerimeter.perimeterCoordinates.length > 0) {
       this.dataMap.perimeters?.perimetersRegistered?.push(newPerimeter);
-      window.localStorage.setItem('dataMap', JSON.stringify(this.dataMap));
+      this.mapService.putDataMap(this.dataMap);
     }
   }
 }

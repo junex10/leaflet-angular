@@ -17,5 +17,5 @@ export class MapService {
   constructor() { }
 
   getDataMap = (): DataMapDTO => JSON.parse(window.localStorage.getItem('dataMap') || `${JSON.stringify(this.map)}`);
- 
+  putDataMap = (map: DataMapDTO): void =>  window.localStorage.setItem('dataMap', JSON.stringify(map));
 }
