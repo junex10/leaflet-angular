@@ -11,11 +11,11 @@ export const MAP_OPTIONS: TileLayerOptions = {
     minZoom: 3
 };
 export const PERIMETERS_TYPE: PerimetersTypeDTO[] = [
-    {
+    /*{
         perimeter: 'Circular',
         icon: 'far fa-circle',
         key: 'circle' 
-    },
+    },*/
     {
         perimeter: 'Poligono',
         icon: 'fas fa-draw-polygon',

@@ -15,13 +15,8 @@
     [header]="'Tipos de parametros'" 
     [content]="parametersType" 
     [map]="map" 
-    [show]="openedModalDraw" 
-    (newShow)="onShowClosed()"
-    (canDraw)="canDraw($event)"
-    [listCoordenatesSelected]="listCoordenatesSelected"
-    [perimeterInProcess]="perimeterInProcess"
-    (newListCoordenatesSelected)="newListCoordenatesSelected($event)"
-    (registerNewDraw)="registerNewDrawSend($event)"
-    [confirmDraw]="confirmDraw"
+    [dataMap]="dataMap"
+    [show]="openedModalDraw"
+    (openedModalDraw)="onShowClosed()"
   ></app-modal>
 </div>

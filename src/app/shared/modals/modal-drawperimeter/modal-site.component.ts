@@ -1,12 +1,21 @@
 import { Component, Input, ViewChild, OnChanges, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 import { ModalManager } from 'ngb-modal';
 import { ToastrService } from 'ngx-toastr';
-import { 
+import {
   PerimetersTypeDTO,
   DrawPerimeterDTO,
   PerimeterInProcessDTO,
-  PerimeterRegisterDTO
+  PerimeterRegisterDTO,
+  CoordinatesDTO,
+  DataMapDTO
 } from 'src/app/dtos/index.dto';
+import { MapService } from 'src/app/services/index.service';
+import {
+  drawPolyline,
+  setMarker,
+  swalAuthAction
+} from 'src/app/shared/shared.index';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-modal',
@@ -20,14 +29,9 @@ export class ModalSiteComponent implements OnChanges {
   @Input('content') content: PerimetersTypeDTO[] = [];
   @Input('map') map: any;
   @Input('show') show: boolean = false;
-  @Input('listCoordenatesSelected') listCoordenatesSelected: any[] = [];
-  @Input('perimeterInProcess') perimeterInProcess: PerimeterInProcessDTO = {};
-  @Input('confirmDraw') confirmDraw: boolean = false;
+  @Input('dataMap') dataMap: DataMapDTO = {};
 
-  @Output() newShow = new EventEmitter<boolean>();
-  @Output() canDraw = new EventEmitter<DrawPerimeterDTO>();
-  @Output() newListCoordenatesSelected = new EventEmitter<any[]>();
-  @Output() registerNewDraw = new EventEmitter<PerimeterRegisterDTO>();
+  @Output() openedModalDraw = new EventEmitter<boolean>();
 
   modalRef: any;
   @ViewChild('modal') modal: any;
@@ -35,14 +39,27 @@ export class ModalSiteComponent implements OnChanges {
   modalIndicatorRef: any;
   @ViewChild('modalIndicator') modalIndicator: any;
 
-  drawWay: boolean = false;
   perimeterType: string = 'none';
   perimeterName: string = 'Nombre del perimetro';
   perimeterColor: string = '#000000';
 
+  dataDraw: DrawPerimeterDTO | {} = {};
+
+  drawWay: boolean = false;
+
+  // Perimeter
+
+  drawMarked: any[] = []; // Coordinates temporaly marked
+  drawMarkedtmp: any;
+  drawPolylinesRecorded: any[] = [];
+  perimeterInProcess: PerimeterInProcessDTO = {};
+  actualPointMarked: any[] = [];
+  confirmDraw: boolean = false;
+
   constructor(
     private modalService: ModalManager,
-    private toast: ToastrService
+    private toast: ToastrService,
+    private mapService: MapService
   ) {
   }
 
@@ -50,7 +67,6 @@ export class ModalSiteComponent implements OnChanges {
     if (this.show) {
       setTimeout(() => this.openModal(), 100);
     }
-    if (this.confirmDraw === true) this.registerDraw();
   }
 
   openModal = () => {
@@ -67,7 +83,7 @@ export class ModalSiteComponent implements OnChanges {
     });
     this.modalRef.onClose.subscribe(() => {
       this.show = false;
-      this.newShow.emit(this.show);
+      this.openedModalDraw.emit(false);
     });
   }
 
@@ -76,22 +92,23 @@ export class ModalSiteComponent implements OnChanges {
     switch (draw) {
       case 'polyline':
         this.toast.info('Ya puede comenzar a dibujar el perimetro');
-        
+
         // Emit order to can draw in the map
-        
-        this.canDraw.emit({
+
+        this.dataDraw = {
           perimeterType: 'polyline',
           draw: true
-        });
+        };
         this.openModalIndicator();
-        this.modalService.close(this.modalRef)
-      break;
+        this.modalService.close(this.modalRef);
+        this.polyline();
+        break;
     }
   }
 
   openModalIndicator = () => {
     this.modalIndicatorRef = this.modalService.open(this.modalIndicator, {
-      size: "md",
+      size: "sm",
       modalClass: 'sideModal',
       hideCloseButton: false,
       centered: false,
@@ -103,33 +120,66 @@ export class ModalSiteComponent implements OnChanges {
     })
     this.modalIndicatorRef.onClose.subscribe(() => {
       this.show = false;
-      this.canDraw.emit({
-        perimeterType: 'none',
-        draw: false
-      });
-
-      this.listCoordenatesSelected = [];
-      this.newListCoordenatesSelected.emit(this.listCoordenatesSelected);
-      this.map.removeLayer(this.perimeterInProcess.perimeter);
-      this.perimeterInProcess.markers?.map(m => this.map.removeLayer(m));
+      this.openedModalDraw.emit(false);
 
       this.drawWay == false ? this.toast.info('Ha cancelado para dibujar el perimetro') : this.toast.success('Ha registrado el nuevo perimetro');
       this.drawWay = false;
+
+      /*this.map.removeLayer(this.perimeterInProcess.perimeter);
+      this.perimeterInProcess.markers?.map(m => this.map.removeLayer(m));*/
     });
   }
 
-  closeModalIndicator = () => 
-    this.modalService.close(this.modalIndicatorRef);
+  closeModalIndicator = () => this.modalService.close(this.modalIndicatorRef);
+
+  polyline = () => {
+    this.map.on('click', (e: any) => {
+      const coordinates: CoordinatesDTO = { lat: e.latlng.lat, long: e.latlng.lng };
+      this.drawMarked.push([coordinates.lat, coordinates.long]);
+
+      this.drawMarkedtmp = drawPolyline(this.map, this.drawMarked, '#000000');
+      const markedDraw = setMarker(this.map, coordinates.lat, coordinates.long);
+      markedDraw.bindPopup(`Coordenadas: ${coordinates.lat} - ${coordinates.long}`);
+      this.actualPointMarked.push(markedDraw);
+
+      this.actualPointMarked[0].bindPopup(`<b>Punto inicial</b>`).openPopup();
+      this.actualPointMarked[0].on('click', () => {
+        Swal.fire(swalAuthAction('¿Desea confirmar el perimetro?', 'Confirmar', 'Cancelar'))
+          .then(() => this.confirmDraw = true)
+      })
+
+      this.drawMarkedtmp.then((polylines: any) => {
+        this.drawPolylinesRecorded.push(polylines);
+        if (this.drawPolylinesRecorded.length > 0) {
+          this.drawPolylinesRecorded.map((lines: any, index: any) => {
+            if (index !== this.drawPolylinesRecorded.length - 1) {
+              this.map.removeLayer(lines);
+            } else {
+              this.perimeterInProcess = {
+                perimeter: lines,
+                perimeterType: 'polyline',
+                markers: this.actualPointMarked
+              };
+            }
+          })
+        }
+      });
+    });
+  }
 
   registerDraw = () => {
     const perimeterRegister: PerimeterRegisterDTO = {
       perimeterType: this.perimeterType,
       perimeter: this.perimeterName,
       perimeterColor: this.perimeterColor,
-      perimeterCoordinates: this.listCoordenatesSelected
+      perimeterCoordinates: this.drawMarked
     };
+    if (perimeterRegister.perimeterCoordinates.length > 0) {
+      this.dataMap.perimeters?.perimetersRegistered?.push(perimeterRegister);
+      this.mapService.putDataMap(this.dataMap);
+    }
     this.drawWay = true;
     this.closeModalIndicator();
-    this.registerNewDraw.emit(perimeterRegister);
+    this.confirmDraw = false;
   }
 }

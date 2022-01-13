@@ -4,7 +4,7 @@
     </modal-header>
     <modal-content>
         <div class='row typeParameters'>
-            <div class='col-12 col-sm-12 col-lg-6 mt-3 iconSelect' *ngFor='let c of content' (click)="drawType(c.key)">
+            <div class='col-12 iconSelect' *ngFor='let c of content' (click)="drawType(c.key)">
                 <i [class]="c.icon"></i><br />
                 {{ c.perimeter }}
             </div>
@@ -21,18 +21,18 @@
             <div class='row'>
                 <div class='col-12 col-sm-12 col-md-6 col-lg-6'>
                     <label for='latitud'>Latitud:</label><br>
-                    <input *ngIf='listCoordenatesSelected.length > 0' class='form-control' type='text' id='latitud' disabled [value]="listCoordenatesSelected[listCoordenatesSelected.length-1][0]">
-                    <input *ngIf='listCoordenatesSelected.length == 0' class='form-control' type='text' id='latitud' disabled value="0">
+                    <input *ngIf='drawMarked.length > 0' class='form-control' type='text' id='latitud' disabled [value]="drawMarked[drawMarked.length-1][0]">
+                    <input *ngIf='drawMarked.length == 0' class='form-control' type='text' id='latitud' disabled value="0">
                 </div>
                 <div class='col-12 col-sm-12 col-md-6 col-lg-6'>
                     <label for='longitud'>Longitud:</label><br>
-                    <input *ngIf='listCoordenatesSelected.length > 0' class='form-control' type='text' id='longitud' disabled [value]="listCoordenatesSelected[listCoordenatesSelected.length-1][1]">
-                    <input *ngIf='listCoordenatesSelected.length == 0' class='form-control' type='text' id='longitud' disabled value="0">
+                    <input *ngIf='drawMarked.length > 0' class='form-control' type='text' id='longitud' disabled [value]="drawMarked[drawMarked.length-1][1]">
+                    <input *ngIf='drawMarked.length == 0' class='form-control' type='text' id='longitud' disabled value="0">
                 </div>
             </div>
-            <h4 class='text-center font-weight-bold mb-4 mt-4' *ngIf='listCoordenatesSelected.length > 0'>Coordenadas marcadas</h4>
+            <h4 class='text-center font-weight-bold mb-4 mt-4' *ngIf='drawMarked.length > 0'>Coordenadas marcadas</h4>
             <div class='row coordinate-box'>
-                <div class='col-12 row coordinate-selected' *ngFor="let i of listCoordenatesSelected">
+                <div class='col-12 row coordinate-selected' *ngFor="let i of drawMarked">
                     <div class='col-12 col-sm-12 col-md-6 col-lg-6'>
                         <input class='form-control' type='text' id='latitud' disabled [value]="i[0]">
                     </div>

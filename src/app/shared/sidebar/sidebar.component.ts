@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, Output, Input, EventEmitter } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
 import Swal from 'sweetalert2';
 import {
   swalListPerimeter,
@@ -6,11 +6,8 @@ import {
 } from 'src/app/shared/shared.index';
 import {
   PerimetersTypeDTO,
-  DrawPerimeterDTO,
-  PerimeterInProcessDTO,
-  PerimeterRegisterDTO
+  DataMapDTO
 } from 'src/app/dtos/index.dto';
-import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-sidebar',
@@ -20,32 +17,20 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class SidebarComponent implements OnInit {
 
-  @Output() activatedDraw = new EventEmitter<DrawPerimeterDTO>();
-  @Output() resetListCoordenates = new EventEmitter<any[]>();
-  @Output() registerNewDraw = new EventEmitter<PerimeterRegisterDTO>();
-
   @Input('map') map: any;
-  @Input('listCoordenatesSelected') listCoordenatesSelected: any[] = [];
-  @Input('perimeterInProcess') perimeterInProcess: PerimeterInProcessDTO = {};
-  @Input('confirmDraw') confirmDraw: boolean = false;
+  @Input('openedModalDraw') openedModalDraw: boolean = false;
+  @Input('dataMap') dataMap: DataMapDTO | {} = {};
 
-  openedModalDraw: boolean = false;
   parametersType: PerimetersTypeDTO[] = PERIMETERS_TYPE;
 
   constructor(
   ) { }
 
   ngOnInit(): void {
+    if (this.openedModalDraw) this.onShowClosed();
   }
 
-  openDraw = () => {
-    // Begin draw
-    //this.toast.info('Dibujado', 'Ya puede comenzar a dibujar el parametro');
-
-    // Open modal to set type parameter
-  
-    this.openModal();
-  }
+  openDraw = () => this.openedModalDraw = true;
 
   openList = () => {
     Swal.fire(
@@ -62,16 +47,6 @@ export class SidebarComponent implements OnInit {
     )
   }
 
-  openModal = () => {
-    this.openedModalDraw = true;
-    // Show options to stop the draw
-    
-  }
-
   onShowClosed = () => this.openedModalDraw = false;
 
-  canDraw = ($event: DrawPerimeterDTO) => this.activatedDraw.emit($event);
-
-  newListCoordenatesSelected = ($event: any[]) => this.resetListCoordenates.emit($event);
-  registerNewDrawSend = ($event: PerimeterRegisterDTO) => this.registerNewDraw.emit($event);
 }

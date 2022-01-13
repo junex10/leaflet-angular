@@ -1,17 +1,8 @@
 <div class="map-container">
     <div class="map-frame">
-        <div id="map" (click)='actionMap()'></div>
+        <div id="map"></div>
         <ng-container>
-            <app-sidebar 
-                [map]="map" 
-                (activatedDraw)="draw($event)" 
-                [listCoordenatesSelected]="drawMarked"
-                [perimeterInProcess]="perimeterInProcess"
-                (resetListCoordenates)="resetListCoordenates()"
-                (registerNewDraw)="registerNewDraw($event)"
-                [confirmDraw]="confirmDraw"
-            >
-            </app-sidebar>
+            <app-sidebar [map]="map" [dataMap]="dataMap"></app-sidebar>
         </ng-container>
     </div>
 </div>

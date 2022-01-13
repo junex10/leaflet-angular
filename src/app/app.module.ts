@@ -27,7 +27,8 @@ import { ModalSiteComponent } from './shared/modals/modal-drawperimeter/modal-si
       timeOut: 3000
     }),
     ModalModule,
-    ModalsModule
+    ModalsModule,
+    ComponentsModule
   ],
   providers: [],
   bootstrap: [AppComponent],
