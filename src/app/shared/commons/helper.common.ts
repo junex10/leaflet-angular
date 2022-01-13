@@ -2,6 +2,12 @@ import * as L from "leaflet";
 import {
     CoordinatesDTO
 } from 'src/app/dtos/index.dto';
+import {
+    MAP_LAYER,
+    MAP_OPTIONS_LAYER,
+    MAP_OPTIONS
+} from 'src/app/shared/shared.index';
+
 /**
 * 
 * @param {array[latitud, longitud]} coord 
@@ -34,3 +40,16 @@ export const setMarker = (map: any, lat: any, long: any) =>
             html: `<span class="pointMarker" />`
         })
     }).addTo(map);
+
+/**
+*   @function reset map 
+*/
+export const resetMap = () => {
+    const map: any = L.map('map', MAP_OPTIONS)
+    .locate({ setView: true, maxZoom: 10 });
+
+    const tiles = L.tileLayer(MAP_LAYER, MAP_OPTIONS_LAYER);
+    tiles.addTo(map);
+
+    return map;
+};

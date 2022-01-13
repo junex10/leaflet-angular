@@ -1,5 +1,6 @@
 export {
     MAP_LAYER,
+    MAP_OPTIONS_LAYER,
     MAP_OPTIONS,
     PERIMETERS_TYPE
 } from './commons/config';
@@ -11,5 +12,6 @@ export {
 export {
     drawPolyline,
     fly,
-    setMarker
+    setMarker,
+    resetMap
 } from './commons/helper.common';

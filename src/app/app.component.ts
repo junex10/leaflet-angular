@@ -2,8 +2,9 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import * as L from 'leaflet';
 import {
   MAP_LAYER,
+  MAP_OPTIONS_LAYER,
   MAP_OPTIONS,
-  swalErrorLocation
+  swalErrorLocation,
 } from 'src/app/shared/shared.index';
 import {
   DataMapDTO,
@@ -44,10 +45,6 @@ export class AppComponent implements OnInit {
   @Output() drawMarkedComunicate = new EventEmitter<any[]>();
 
   public map: any;
-  private mapOptions: L.MapOptions = {
-    zoom: 10,
-    attributionControl: false
-  };
   constructor(
     private mapService: MapService
   ) {
@@ -56,7 +53,7 @@ export class AppComponent implements OnInit {
   private initMap(): void {
     if (window.localStorage.getItem('dataMap') === null) window.localStorage.setItem('dataMap', JSON.stringify(this.dataMap));
 
-    const map: any = L.map('map', this.mapOptions)
+    const map: any = L.map('map', MAP_OPTIONS)
       .locate({ setView: true, maxZoom: 10 });
 
     map.on("locationerror", () =>
@@ -67,24 +64,11 @@ export class AppComponent implements OnInit {
 
     this.map = map;
 
-    const tiles = L.tileLayer(MAP_LAYER, MAP_OPTIONS);
+    const tiles = L.tileLayer(MAP_LAYER, MAP_OPTIONS_LAYER);
     tiles.addTo(this.map);
   }
   ngOnInit(): void {
     this.initMap();
     
   }
-  /*registerNewDraw = ($event: PerimeterRegisterDTO) => {
-    const newPerimeter: PerimetersRegisteredDTO = {
-      perimeterName: $event.perimeter,
-      perimeterType: $event.perimeterType,
-      perimeterColor: $event.perimeterColor,
-      perimeterCoordinates: $event.perimeterCoordinates
-    };
-    if (newPerimeter.perimeterCoordinates.length > 0) {
-      this.dataMap.perimeters?.perimetersRegistered?.push(newPerimeter);
-      this.mapService.putDataMap(this.dataMap);
-
-    }
-  }*/
 }

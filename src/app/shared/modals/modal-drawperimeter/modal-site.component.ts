@@ -13,10 +13,10 @@ import { MapService } from 'src/app/services/index.service';
 import {
   drawPolyline,
   setMarker,
-  swalAuthAction
+  swalAuthAction,
+  resetMap
 } from 'src/app/shared/shared.index';
 import Swal from 'sweetalert2';
-
 @Component({
   selector: 'app-modal',
   templateUrl: './modal-site.component.html',
@@ -54,7 +54,8 @@ export class ModalSiteComponent implements OnChanges {
   drawPolylinesRecorded: any[] = [];
   perimeterInProcess: PerimeterInProcessDTO = {};
   actualPointMarked: any[] = [];
-  confirmDraw: boolean = false;
+  canDraw: boolean = false;
+  eventPerimeter: any = '';
 
   constructor(
     private modalService: ModalManager,
@@ -107,8 +108,9 @@ export class ModalSiteComponent implements OnChanges {
   }
 
   openModalIndicator = () => {
+    this.canDraw = true;
     this.modalIndicatorRef = this.modalService.open(this.modalIndicator, {
-      size: "sm",
+      size: "md",
       modalClass: 'sideModal',
       hideCloseButton: false,
       centered: false,
@@ -125,6 +127,8 @@ export class ModalSiteComponent implements OnChanges {
       this.drawWay == false ? this.toast.info('Ha cancelado para dibujar el perimetro') : this.toast.success('Ha registrado el nuevo perimetro');
       this.drawWay = false;
 
+      this.reset();
+
       /*this.map.removeLayer(this.perimeterInProcess.perimeter);
       this.perimeterInProcess.markers?.map(m => this.map.removeLayer(m));*/
     });
@@ -133,37 +137,40 @@ export class ModalSiteComponent implements OnChanges {
   closeModalIndicator = () => this.modalService.close(this.modalIndicatorRef);
 
   polyline = () => {
-    this.map.on('click', (e: any) => {
-      const coordinates: CoordinatesDTO = { lat: e.latlng.lat, long: e.latlng.lng };
-      this.drawMarked.push([coordinates.lat, coordinates.long]);
+    this.eventPerimeter = this.map.on('click', (e: any) => {
+      if (!this.canDraw) e.originalEvent.preventDefault();
+      if (this.canDraw) {
+        const coordinates: CoordinatesDTO = { lat: e.latlng.lat, long: e.latlng.lng };
+        this.drawMarked.push([coordinates.lat, coordinates.long]);
 
-      this.drawMarkedtmp = drawPolyline(this.map, this.drawMarked, '#000000');
-      const markedDraw = setMarker(this.map, coordinates.lat, coordinates.long);
-      markedDraw.bindPopup(`Coordenadas: ${coordinates.lat} - ${coordinates.long}`);
-      this.actualPointMarked.push(markedDraw);
+        this.drawMarkedtmp = drawPolyline(this.map, this.drawMarked, '#000000');
+        const markedDraw = setMarker(this.map, coordinates.lat, coordinates.long);
+        markedDraw.bindPopup(`Coordenadas: ${coordinates.lat} - ${coordinates.long}`);
+        this.actualPointMarked.push(markedDraw);
 
-      this.actualPointMarked[0].bindPopup(`<b>Punto inicial</b>`).openPopup();
-      this.actualPointMarked[0].on('click', () => {
-        Swal.fire(swalAuthAction('¿Desea confirmar el perimetro?', 'Confirmar', 'Cancelar'))
-          .then(() => this.confirmDraw = true)
-      })
+        this.actualPointMarked[0].bindPopup(`<b>Punto inicial</b>`).openPopup();
+        this.actualPointMarked[0].on('click', () => {
+          Swal.fire(swalAuthAction('¿Desea confirmar el perimetro?', 'Confirmar', 'Cancelar'))
+            .then(() => this.registerDraw())
+        })
 
-      this.drawMarkedtmp.then((polylines: any) => {
-        this.drawPolylinesRecorded.push(polylines);
-        if (this.drawPolylinesRecorded.length > 0) {
-          this.drawPolylinesRecorded.map((lines: any, index: any) => {
-            if (index !== this.drawPolylinesRecorded.length - 1) {
-              this.map.removeLayer(lines);
-            } else {
-              this.perimeterInProcess = {
-                perimeter: lines,
-                perimeterType: 'polyline',
-                markers: this.actualPointMarked
-              };
-            }
-          })
-        }
-      });
+        this.drawMarkedtmp.then((polylines: any) => {
+          this.drawPolylinesRecorded.push(polylines);
+          if (this.drawPolylinesRecorded.length > 0) {
+            this.drawPolylinesRecorded.map((lines: any, index: any) => {
+              if (index !== this.drawPolylinesRecorded.length - 1) {
+                this.map.removeLayer(lines);
+              } else {
+                this.perimeterInProcess = {
+                  perimeter: lines,
+                  perimeterType: 'polyline',
+                  markers: this.actualPointMarked
+                };
+              }
+            })
+          }
+        });
+      }
     });
   }
 
@@ -180,6 +187,22 @@ export class ModalSiteComponent implements OnChanges {
     }
     this.drawWay = true;
     this.closeModalIndicator();
-    this.confirmDraw = false;
+    this.reset();
+  }
+
+  reset = () => {
+    this.drawPolylinesRecorded.forEach((lines: any) => this.map.removeLayer(lines));
+    this.drawPolylinesRecorded = [];
+
+    this.actualPointMarked.forEach((points: any) => this.map.removeLayer(points));
+    this.actualPointMarked = [];
+
+    this.drawMarked = [];
+
+    this.canDraw = false;
+    this.map.remove(this.eventPerimeter);
+    
+    this.map = resetMap();
+
   }
 }

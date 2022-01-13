@@ -6,9 +6,13 @@ import {
 } from 'src/app/dtos/index.dto';
 
 export const MAP_LAYER = 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png';
-export const MAP_OPTIONS: TileLayerOptions = {
+export const MAP_OPTIONS_LAYER: TileLayerOptions = {
     maxZoom: 18,
-    minZoom: 3
+    minZoom: 3,
+};
+export const MAP_OPTIONS: L.MapOptions = {
+    zoom: 10,
+    attributionControl: false
 };
 export const PERIMETERS_TYPE: PerimetersTypeDTO[] = [
     /*{
