@@ -15,21 +15,6 @@ export const swalErrorLocation = (
     showCancelButton: false,
     showConfirmButton: false
 })
-export const swalListPerimeter = (
-    html: string,
-    title: string = 'Lista de perimetros',
-    text: string = 'Listado de perimetros registrados'
-): SweetAlertOptions => ({
-    title,
-    text,
-    html,
-    showConfirmButton: true,
-    customClass: {
-        confirmButton: 'confirmButton'
-    },
-    confirmButtonText: 'Listo',
-    showCloseButton: true
-});
 export const swalAuthAction = (
     title: string = '¿Desea confirmar esta acción?',
     confirmButtonText: string = 'Si',

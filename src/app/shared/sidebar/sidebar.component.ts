@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
 import Swal from 'sweetalert2';
 import {
-  swalListPerimeter,
   PERIMETERS_TYPE
 } from 'src/app/shared/shared.index';
 import {
@@ -33,20 +32,19 @@ export class SidebarComponent implements OnInit {
   openDraw = () => this.openedModalDraw = true;
 
   openList = () => {
-    Swal.fire(
-      swalListPerimeter(`<hr>
+      /*`<hr>
         <div class='row listOfParameterBox'>
-          <div class='col-12 listParameter'>
+          <div class='col-12 listParameter' (click)='goFly()'>
             <span class='mr-4'><i class="fas fa-map-marker"></i></span> Perimetro
           </div>
           <div class='col-12 listParameter'>
             <span class='mr-4'><i class="fas fa-map-marker"></i></span> Perimetro
           </div>
         </div>
-      `)
-    )
+      `*/
   }
 
   onShowClosed = () => this.openedModalDraw = false;
+  goFly = () => console.log('Hola')
 
 }

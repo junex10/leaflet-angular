@@ -6,7 +6,6 @@ export {
 } from './commons/config';
 export {
     swalErrorLocation,
-    swalListPerimeter,
     swalAuthAction
 } from './commons/swal.common';
 export {
