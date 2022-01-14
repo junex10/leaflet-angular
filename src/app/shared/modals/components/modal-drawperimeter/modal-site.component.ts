@@ -43,6 +43,7 @@ export class ModalSiteComponent implements OnChanges {
   perimeterType: string = 'none';
   perimeterName: string = 'Nombre del perimetro';
   perimeterColor: string = '#000000';
+  perimeterFillColor: string = '#000000';
 
   dataDraw: DrawPerimeterDTO | {} = {};
 
@@ -175,7 +176,8 @@ export class ModalSiteComponent implements OnChanges {
       perimeterType: this.perimeterType,
       perimeter: this.perimeterName,
       perimeterColor: this.perimeterColor,
-      perimeterCoordinates: this.drawMarked
+      perimeterCoordinates: this.drawMarked,
+      perimeterFillColor: this.perimeterFillColor
     };
     if (perimeterRegister.perimeterCoordinates.length > 0) {
       this.dataMap.perimeters?.perimetersRegistered?.push(perimeterRegister);

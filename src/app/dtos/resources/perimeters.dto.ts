@@ -21,4 +21,5 @@ export interface PerimeterRegisterDTO{
     perimeter?: string;
     perimeterColor?: string;
     perimeterCoordinates: any[];
+    perimeterFillColor?: string;
 }

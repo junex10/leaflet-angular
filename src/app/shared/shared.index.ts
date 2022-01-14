@@ -12,5 +12,7 @@ export {
     drawPolyline,
     fly,
     setMarker,
-    resetMap
+    resetMap,
+    drawPolygon,
+    translatePerimeterType
 } from './commons/helper.common';

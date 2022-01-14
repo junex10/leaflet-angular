@@ -7,6 +7,5 @@ export {
 } from './resources/perimeters.dto';
 export {
     DataMapDTO,
-    PerimetersDTO,
-    PerimetersRegisteredDTO
+    PerimetersDTO
 } from './resources/map.dto';

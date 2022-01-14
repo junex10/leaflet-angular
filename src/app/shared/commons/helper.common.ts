@@ -14,7 +14,7 @@ import {
 * @param {string} color 
 */
 
-export const drawPolyline = async (map: any, coord: L.LatLngExpression[] | L.LatLngExpression[][], color: string) =>
+export const drawPolyline = async (map: any, coord: L.LatLngExpression[] | L.LatLngExpression[][], color: string = '#000000') =>
     L.polyline(coord, { color: color }).addTo(map);
 
 /**
@@ -53,3 +53,22 @@ export const resetMap = () => {
 
     return map;
 };
+/**
+* @param {array[latitud, longitud]} coord 
+* @param {string} color
+* @param {string} fillColor   
+*/
+export const drawPolygon = async (map: any, coord: L.LatLngExpression[] | L.LatLngExpression[][], color: string = '#000000', fillColor: string = '#000000') =>
+    L.polygon(coord, { color: color, fillColor: fillColor }).addTo(map);
+
+/**
+* @function translate perimeter type 
+*/
+export const translatePerimeterType = (perimeterType: string = 'none') => {
+    switch(perimeterType){
+        case 'polyline':
+            perimeterType = '<i class="fas fa-draw-polygon"></i> Polígono';
+        break;
+    }
+    return perimeterType;
+}
