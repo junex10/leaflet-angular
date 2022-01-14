@@ -4,17 +4,18 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { ModalModule } from 'ngb-modal';
-import { ModalsModule } from './shared/modals/modals.module';
 
 import { AppComponent } from './app.component';
 import { SidebarComponent } from './shared/sidebar/sidebar.component';
 import { ModalSiteComponent } from './shared/modals/components/modal-drawperimeter/modal-site.component';
+import { ListPerimetersComponent } from './shared/modals/components/list-perimeters/list-perimeters.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SidebarComponent,
-    ModalSiteComponent
+    ModalSiteComponent,
+    ListPerimetersComponent
   ],
   imports: [
     BrowserModule,
@@ -24,8 +25,7 @@ import { ModalSiteComponent } from './shared/modals/components/modal-drawperimet
       positionClass: 'toast-bottom-right',
       timeOut: 3000
     }),
-    ModalModule,
-    ModalsModule
+    ModalModule
   ],
   providers: [],
   bootstrap: [AppComponent],

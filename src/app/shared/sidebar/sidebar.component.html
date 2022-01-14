@@ -19,4 +19,9 @@
     [show]="openedModalDraw"
     (openedModalDraw)="onShowClosed()"
   ></app-modal>
+  <app-list-perimeters
+    [show]="openModalListParameters"
+    [content]="perimetersRegistered"
+    (openModalListParameters)="onListPerimetersClosed()"
+  ></app-list-perimeters>
 </div>

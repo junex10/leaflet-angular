@@ -1,0 +1,12 @@
+<modal #listPerimeters>
+    <modal-header>
+        {{ header }}
+    </modal-header>
+    <modal-content>
+        <div class='row listOfParameterBox'>
+            <div class='col-12 listParameter iconSelect' *ngFor='let c of content'>
+                <span class='mr-4'><i class="fas fa-map-marker"></i></span> {{ c.perimeter }}
+            </div>
+        </div>
+    </modal-content>
+</modal>

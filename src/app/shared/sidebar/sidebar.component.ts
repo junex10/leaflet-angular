@@ -5,8 +5,10 @@ import {
 } from 'src/app/shared/shared.index';
 import {
   PerimetersTypeDTO,
-  DataMapDTO
+  DataMapDTO,
+  PerimeterRegisterDTO
 } from 'src/app/dtos/index.dto';
+import { MapService } from 'src/app/services/index.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -19,10 +21,13 @@ export class SidebarComponent implements OnInit {
   @Input('map') map: any;
   @Input('openedModalDraw') openedModalDraw: boolean = false;
   @Input('dataMap') dataMap: DataMapDTO | {} = {};
+  @Input('openModalListParameters') openModalListParameters: boolean = false;
 
   parametersType: PerimetersTypeDTO[] = PERIMETERS_TYPE;
+  perimetersRegistered: any[] = [];
 
   constructor(
+    private mapService: MapService
   ) { }
 
   ngOnInit(): void {
@@ -32,19 +37,16 @@ export class SidebarComponent implements OnInit {
   openDraw = () => this.openedModalDraw = true;
 
   openList = () => {
-      /*`<hr>
-        <div class='row listOfParameterBox'>
-          <div class='col-12 listParameter' (click)='goFly()'>
-            <span class='mr-4'><i class="fas fa-map-marker"></i></span> Perimetro
-          </div>
-          <div class='col-12 listParameter'>
-            <span class='mr-4'><i class="fas fa-map-marker"></i></span> Perimetro
-          </div>
-        </div>
-      `*/
+    this.getPerimeters();
+    this.openModalListParameters = true;
   }
 
   onShowClosed = () => this.openedModalDraw = false;
-  goFly = () => console.log('Hola')
 
+  onListPerimetersClosed = () => this.openModalListParameters = false;
+
+  getPerimeters = () => {
+    this.perimetersRegistered.push(this.mapService.getDataMap().perimeters?.perimetersRegistered);
+    this.perimetersRegistered = this.perimetersRegistered[0];
+  }
 }
