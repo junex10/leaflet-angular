@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
-import Swal from 'sweetalert2';
 import {
-  PERIMETERS_TYPE
+  PERIMETERS_TYPE,
+  fly
 } from 'src/app/shared/shared.index';
 import {
   PerimetersTypeDTO,
