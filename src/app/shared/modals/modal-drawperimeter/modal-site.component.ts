@@ -54,7 +54,6 @@ export class ModalSiteComponent implements OnChanges {
   drawPolylinesRecorded: any[] = [];
   perimeterInProcess: PerimeterInProcessDTO = {};
   actualPointMarked: any[] = [];
-  canDraw: boolean = false;
   eventPerimeter: any = '';
 
   constructor(
@@ -108,7 +107,6 @@ export class ModalSiteComponent implements OnChanges {
   }
 
   openModalIndicator = () => {
-    this.canDraw = true;
     this.modalIndicatorRef = this.modalService.open(this.modalIndicator, {
       size: "md",
       modalClass: 'sideModal',
@@ -138,39 +136,36 @@ export class ModalSiteComponent implements OnChanges {
 
   polyline = () => {
     this.eventPerimeter = this.map.on('click', (e: any) => {
-      if (!this.canDraw) e.originalEvent.preventDefault();
-      if (this.canDraw) {
-        const coordinates: CoordinatesDTO = { lat: e.latlng.lat, long: e.latlng.lng };
-        this.drawMarked.push([coordinates.lat, coordinates.long]);
+      const coordinates: CoordinatesDTO = { lat: e.latlng.lat, long: e.latlng.lng };
+      this.drawMarked.push([coordinates.lat, coordinates.long]);
 
-        this.drawMarkedtmp = drawPolyline(this.map, this.drawMarked, '#000000');
-        const markedDraw = setMarker(this.map, coordinates.lat, coordinates.long);
-        markedDraw.bindPopup(`Coordenadas: ${coordinates.lat} - ${coordinates.long}`);
-        this.actualPointMarked.push(markedDraw);
+      this.drawMarkedtmp = drawPolyline(this.map, this.drawMarked, '#000000');
+      const markedDraw = setMarker(this.map, coordinates.lat, coordinates.long);
+      markedDraw.bindPopup(`Coordenadas: ${coordinates.lat} - ${coordinates.long}`);
+      this.actualPointMarked.push(markedDraw);
 
-        this.actualPointMarked[0].bindPopup(`<b>Punto inicial</b>`).openPopup();
-        this.actualPointMarked[0].on('click', () => {
-          Swal.fire(swalAuthAction('¿Desea confirmar el perimetro?', 'Confirmar', 'Cancelar'))
-            .then(() => this.registerDraw())
-        })
+      this.actualPointMarked[0].bindPopup(`<b>Punto inicial</b>`).openPopup();
+      this.actualPointMarked[0].on('click', () => {
+        Swal.fire(swalAuthAction('¿Desea confirmar el perimetro?', 'Confirmar', 'Cancelar'))
+          .then(() => this.registerDraw())
+      })
 
-        this.drawMarkedtmp.then((polylines: any) => {
-          this.drawPolylinesRecorded.push(polylines);
-          if (this.drawPolylinesRecorded.length > 0) {
-            this.drawPolylinesRecorded.map((lines: any, index: any) => {
-              if (index !== this.drawPolylinesRecorded.length - 1) {
-                this.map.removeLayer(lines);
-              } else {
-                this.perimeterInProcess = {
-                  perimeter: lines,
-                  perimeterType: 'polyline',
-                  markers: this.actualPointMarked
-                };
-              }
-            })
-          }
-        });
-      }
+      this.drawMarkedtmp.then((polylines: any) => {
+        this.drawPolylinesRecorded.push(polylines);
+        if (this.drawPolylinesRecorded.length > 0) {
+          this.drawPolylinesRecorded.map((lines: any, index: any) => {
+            if (index !== this.drawPolylinesRecorded.length - 1) {
+              this.map.removeLayer(lines);
+            } else {
+              this.perimeterInProcess = {
+                perimeter: lines,
+                perimeterType: 'polyline',
+                markers: this.actualPointMarked
+              };
+            }
+          })
+        }
+      });
     });
   }
 
@@ -199,9 +194,7 @@ export class ModalSiteComponent implements OnChanges {
 
     this.drawMarked = [];
 
-    this.canDraw = false;
     this.map.remove(this.eventPerimeter);
-    
     this.map = resetMap();
 
   }
