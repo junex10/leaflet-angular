@@ -14,7 +14,8 @@ import {
   drawPolyline,
   setMarker,
   swalAuthAction,
-  resetMap
+  resetMap,
+  fly
 } from 'src/app/shared/shared.index';
 import Swal from 'sweetalert2';
 @Component({
@@ -198,4 +199,5 @@ export class ModalSiteComponent implements OnChanges {
     this.map = resetMap();
 
   }
+  goFly = (map: any, coordinates: CoordinatesDTO, zoom: number = 10) => fly(map, coordinates, zoom)
 }
