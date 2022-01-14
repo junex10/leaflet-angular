@@ -128,7 +128,8 @@ ul li{
 .perimeterIndicator .modal{
     width: inherit !important;
     height: inherit !important;
-    left: 37% !important;
+    left: 70% !important;
+    top: -3%;
 }
 .sideModal{
     top: -2% !important;

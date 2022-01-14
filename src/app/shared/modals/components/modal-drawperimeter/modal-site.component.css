@@ -13,7 +13,7 @@
     transition: .3s;
 }
 .coordinate-box{
-    max-height: 250px;
+    max-height: 150px;
     overflow-y: auto;
     overflow-x: hidden;
 }

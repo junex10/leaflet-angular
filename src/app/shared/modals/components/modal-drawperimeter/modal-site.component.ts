@@ -1,4 +1,5 @@
 import { Component, Input, ViewChild, OnChanges, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalManager } from 'ngb-modal';
 import { ToastrService } from 'ngx-toastr';
 import {
@@ -58,17 +59,36 @@ export class ModalSiteComponent implements OnChanges {
   actualPointMarked: any[] = [];
   eventPerimeter: any = '';
 
+  form: FormGroup;
+
   constructor(
     private modalService: ModalManager,
     private toast: ToastrService,
-    private mapService: MapService
+    private mapService: MapService,
+    private fb: FormBuilder
   ) {
+    this.form = this.fb.group({
+      perimeterType: ['none', [
+        Validators.required,
+        Validators.pattern(/\.*[A-Z]/)
+      ]],
+      perimeterName: ['Nombre del perimetro', [
+        Validators.required,
+        Validators.pattern(/\.*[A-Z]/)
+      ]],
+      perimeterColor: ['#000000', [
+        Validators.required,
+        Validators.pattern(/\.*[A-Z]/)
+      ]],
+      perimeterFillColor: ['#000000', [
+        Validators.required,
+        Validators.pattern(/\.*[A-Z]/)
+      ]]
+    })
   }
 
   ngOnChanges() {
-    if (this.show) {
-      setTimeout(() => this.openModal(), 100);
-    }
+    if (this.show) setTimeout(() => this.openModal(), 100);
   }
 
   openModal = () => {
@@ -129,8 +149,6 @@ export class ModalSiteComponent implements OnChanges {
 
       this.reset();
 
-      /*this.map.removeLayer(this.perimeterInProcess.perimeter);
-      this.perimeterInProcess.markers?.map(m => this.map.removeLayer(m));*/
     });
   }
 
@@ -148,8 +166,11 @@ export class ModalSiteComponent implements OnChanges {
 
       this.actualPointMarked[0].bindPopup(`<b>Punto inicial</b>`).openPopup();
       this.actualPointMarked[0].on('click', () => {
-        Swal.fire(swalAuthAction('¿Desea confirmar el perimetro?', 'Confirmar', 'Cancelar'))
-          .then(() => this.registerDraw())
+        //if (!this.form.invalid) {
+          if (this.actualPointMarked.length >= 3) Swal.fire(swalAuthAction('¿Desea confirmar el perimetro?', 'Confirmar', 'Cancelar'))
+          .then(way => way.isConfirmed ? this.registerDraw() : null);
+          else this.toast.error(`Debe marcar mínimo 3 puntos para crear el perimetro`)
+        //} else this.toast.error('Debe rellenar todos los datos del perimetro')
       })
 
       this.drawMarkedtmp.then((polylines: any) => {

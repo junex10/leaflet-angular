@@ -16,6 +16,24 @@
         <h6 class='text-center'>Perimetro</h6>
     </modal-header>
     <modal-content>
+        <form [formGroup]="form" autocomplete="off">
+            <h4 class='text-center font-weight-bold mb-4'>Datos del perimetro</h4>
+            <div class='row'>
+                <div class='col-12 col-sm-12 col-lg-6 form-group'>
+                    <label for='perimeterType'>Nombre del perímetro</label>
+                    <input type='text' class='form-control' id='perimeterType' formControlName="perimeterType">
+                </div>
+                <div class='col-12 col-sm-12 col-lg-6 form-group'>
+                    <label for='perimeterColor'>Color de linea del perímetro</label>
+                    <input type='text' class='form-control' id='perimeterColor' formControlName="perimeterColor">
+                </div>
+                <div class='col-12 form-group'>
+                    <label for='perimeterFillColor'>Color de fondo del perímetro</label>
+                    <input type='text' class='form-control' id='perimeterFillColor' formControlName="perimeterFillColor">
+                </div>
+            </div>
+        </form>
+        <hr />
         <div class='form-group'>
             <h4 class='text-center font-weight-bold mb-4'>Coordenadas actuales</h4>
             <div class='row'>
@@ -33,7 +51,7 @@
             <h4 class='text-center font-weight-bold mb-4 mt-4' *ngIf='drawMarked.length > 0'>Coordenadas marcadas</h4>
             <div class='row coordinate-box'>
                 <div class='col-12 row coordinate-selected' *ngFor="let i of drawMarked" (click)="goFly(map, {lat: i[0], long: i[1]})">
-                    <div class='col-12 col-sm-12 col-md-6 col-lg-6'>
+                    <div class='col-12 col-sm-12 col-md-6 col-lg-6 mb-2'>
                         <input class='form-control' type='text' id='latitud' disabled [value]="i[0]">
                     </div>
                     <div class='col-12 col-sm-12 col-md-6 col-lg-6'>
