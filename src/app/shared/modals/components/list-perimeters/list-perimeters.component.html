@@ -3,8 +3,8 @@
         {{ header }}
     </modal-header>
     <modal-content>
-        <div class='row listOfParameterBox'>
-            <div class='col-12 listParameter iconSelect' *ngFor='let c of content'>
+        <div class='row'>
+            <div class='col-12 listParameter mt-4 mb-4' *ngFor='let c of content' (click)="goFly({ lat: c.perimeterCoordinates[0][0], long: c.perimeterCoordinates[0][1] })">
                 <span class='mr-4'><i class="fas fa-map-marker"></i></span> {{ c.perimeter }}
             </div>
         </div>

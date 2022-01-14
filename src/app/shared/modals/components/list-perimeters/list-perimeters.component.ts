@@ -1,19 +1,20 @@
-import { Component, OnChanges, Input, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, OnChanges, Input, ViewChild, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 import { ModalManager } from 'ngb-modal';
 import { ToastrService } from 'ngx-toastr';
-import { MapService } from 'src/app/services/index.service';
 import { fly } from 'src/app/shared/shared.index';
-import { PerimeterRegisterDTO } from 'src/app/dtos/index.dto';
+import { PerimeterRegisterDTO, CoordinatesDTO } from 'src/app/dtos/index.dto';
 @Component({
   selector: 'app-list-perimeters',
   templateUrl: './list-perimeters.component.html',
-  styleUrls: ['./list-perimeters.component.css']
+  styleUrls: ['./list-perimeters.component.css'],
+  encapsulation: ViewEncapsulation.Emulated
 })
 export class ListPerimetersComponent implements OnChanges {
 
   @Input('header') header: string = 'Lista de perimetros';
   @Input('content') content: PerimeterRegisterDTO[] = [];
   @Input('show') show: boolean = false;
+  @Input('map') map: any;
 
   modalRef: any;
   @ViewChild('listPerimeters') modal: any;
@@ -45,5 +46,9 @@ export class ListPerimetersComponent implements OnChanges {
       this.show = false;
       this.openModalListParameters.emit();
     });
+  }
+  goFly = (coordinates: CoordinatesDTO, zoom: number = 10) => {
+    fly(this.map, coordinates, zoom) // Change to calcule the center o polygon irregular
+    this.toast.success('Perimetro localizado')
   }
 }

@@ -61,6 +61,10 @@ ul li{
     background-color: var(--rojo);
     color: var(--blanco);
     transition: .3s;
+    box-shadow: 0 3px 6px 0 rgba(34, 34, 34, 0.3);
+	-webkit-box-shadow: 0 3px 6px 0 rgba(34, 34, 34, .3);
+	-moz-box-shadow: 0 3px 6px 0 rgba(34, 34, 34, .3);
+	-o-box-shadow: 0 3px 6px 0 rgba(34, 34, 34, .3);
 }
 .listParameter:not(:hover){
     transition: .3s;
