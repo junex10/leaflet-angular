@@ -86,7 +86,7 @@ export class AppComponent implements OnInit {
     perimeters?.forEach(values => {
       switch(values.perimeterType) {
         case 'polyline':
-          const polygon = drawPolygon(this.map, values.perimeterCoordinates, values.perimeterColor);
+          const polygon = drawPolygon(this.map, values.perimeterCoordinates, values.perimeterColor, values.perimeterFillColor);
           polygon.then(self => {
             self.bindPopup(`<b>Perimetro:</b> ${values.perimeter}<br><b>Tipo:</b> ${translatePerimeterType(values.perimeterType)}`)
           })

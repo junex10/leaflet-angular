@@ -11,6 +11,14 @@
         </div>
     </modal-content> 
 </modal>
+<modal #colorPicker class='colorPicker'>
+    <modal-header>
+        <h6 class='text-center'>Elige un color</h6>
+    </modal-header>
+    <modal-content>
+        <app-color-picker (colorSelected)="colorSelected($event)" [colorType]="colorType"></app-color-picker>
+    </modal-content>
+</modal>
 <modal #modalIndicator class='perimeterIndicator'>
     <modal-header>
         <h6 class='text-center'>Perimetro</h6>
@@ -21,15 +29,15 @@
             <div class='row'>
                 <div class='col-12 col-sm-12 col-lg-6 form-group'>
                     <label for='perimeterType'>Nombre del perímetro</label>
-                    <input type='text' class='form-control' id='perimeterType' formControlName="perimeterType">
+                    <input type='text' class='form-control' id='perimeterType' formControlName="perimeterName">
                 </div>
                 <div class='col-12 col-sm-12 col-lg-6 form-group'>
                     <label for='perimeterColor'>Color de linea del perímetro</label>
-                    <input type='text' class='form-control' id='perimeterColor' formControlName="perimeterColor"> <!-- Crear evento que abra un modal para elegir color -->
+                    <input type='text' class='form-control' id='perimeterColor' formControlName="perimeterColor" (click)="openColorPicker('point')"> <!-- Crear evento que abra un modal para elegir color -->
                 </div>
                 <div class='col-12 form-group'>
                     <label for='perimeterFillColor'>Color de fondo del perímetro</label>
-                    <input type='text' class='form-control' id='perimeterFillColor' formControlName="perimeterFillColor">
+                    <input type='text' class='form-control' id='perimeterFillColor' formControlName="perimeterFillColor" (click)="openColorPicker('fill')">
                 </div>
             </div>
         </form>

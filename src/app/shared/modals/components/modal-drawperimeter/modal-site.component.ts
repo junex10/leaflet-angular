@@ -11,6 +11,7 @@ import {
   DataMapDTO
 } from 'src/app/dtos/index.dto';
 import { MapService } from 'src/app/services/index.service';
+import { MODAL_CONFIG } from 'src/app/shared/commons/config';
 import {
   drawPolyline,
   setMarker,
@@ -41,10 +42,8 @@ export class ModalSiteComponent implements OnChanges {
   modalIndicatorRef: any;
   @ViewChild('modalIndicator') modalIndicator: any;
 
-  perimeterType: string = 'none';
-  perimeterName: string = 'Nombre del perimetro';
-  perimeterColor: string = '#000000';
-  perimeterFillColor: string = '#000000';
+  colorPickerRef: any
+  @ViewChild('colorPicker') colorPicker: any;
 
   dataDraw: DrawPerimeterDTO | {} = {};
 
@@ -61,6 +60,8 @@ export class ModalSiteComponent implements OnChanges {
 
   form: FormGroup;
 
+  colorType: string = 'point';
+
   constructor(
     private modalService: ModalManager,
     private toast: ToastrService,
@@ -72,7 +73,7 @@ export class ModalSiteComponent implements OnChanges {
         Validators.required,
         Validators.pattern(/\.*[A-Z]/)
       ]],
-      perimeterName: ['Nombre del perimetro', [
+      perimeterName: ['', [
         Validators.required,
         Validators.pattern(/\.*[A-Z]/)
       ]],
@@ -91,18 +92,13 @@ export class ModalSiteComponent implements OnChanges {
     if (this.show) setTimeout(() => this.openModal(), 100);
   }
 
+  openColorPicker = (colorType: string) => {
+    this.colorPickerRef = this.modalService.open(this.colorPicker, MODAL_CONFIG.MEDIUM);
+    this.colorType = colorType;
+  }
+
   openModal = () => {
-    this.modalRef = this.modalService.open(this.modal, {
-      size: "md",
-      modalClass: 'mymodal',
-      hideCloseButton: false,
-      centered: false,
-      backdrop: true,
-      animation: true,
-      keyboard: false,
-      closeOnOutsideClick: true,
-      backdropClass: "modal-backdrop"
-    });
+    this.modalRef = this.modalService.open(this.modal, MODAL_CONFIG.MEDIUM);
     this.modalRef.onClose.subscribe(() => {
       this.show = false;
       this.openedModalDraw.emit(false);
@@ -110,7 +106,7 @@ export class ModalSiteComponent implements OnChanges {
   }
 
   drawType = (draw: string) => {
-    this.perimeterType = draw;
+    this.form.get('perimeterType')?.setValue(draw);
     switch (draw) {
       case 'polyline':
         this.toast.info('Ya puede comenzar a dibujar el perimetro');
@@ -129,17 +125,7 @@ export class ModalSiteComponent implements OnChanges {
   }
 
   openModalIndicator = () => {
-    this.modalIndicatorRef = this.modalService.open(this.modalIndicator, {
-      size: "md",
-      modalClass: 'sideModal',
-      hideCloseButton: false,
-      centered: false,
-      backdrop: true,
-      animation: true,
-      keyboard: false,
-      closeOnOutsideClick: true,
-      backdropClass: "none",
-    })
+    this.modalIndicatorRef = this.modalService.open(this.modalIndicator, MODAL_CONFIG.MEDIUM)
     this.modalIndicatorRef.onClose.subscribe(() => {
       this.show = false;
       this.openedModalDraw.emit(false);
@@ -153,6 +139,7 @@ export class ModalSiteComponent implements OnChanges {
   }
 
   closeModalIndicator = () => this.modalService.close(this.modalIndicatorRef);
+  closeModalColorPicker = () => this.modalService.close(this.colorPickerRef);
 
   polyline = () => {
     this.eventPerimeter = this.map.on('click', (e: any) => {
@@ -200,6 +187,7 @@ export class ModalSiteComponent implements OnChanges {
       perimeterCoordinates: this.drawMarked,
       perimeterFillColor: this.perimeterFillColor
     };
+    console.log(perimeterRegister, ' -> FORMULARIO')
     if (perimeterRegister.perimeterCoordinates.length > 0) {
       this.dataMap.perimeters?.perimetersRegistered?.push(perimeterRegister);
       this.mapService.putDataMap(this.dataMap);
@@ -224,7 +212,13 @@ export class ModalSiteComponent implements OnChanges {
   }
   goFly = (map: any, coordinates: CoordinatesDTO, zoom: number = 10) => fly(map, coordinates, zoom)
 
-  changeFillColor = ($event: any) => {
-    console.log($event)
-  } 
+  colorSelected = ($event: any) => {
+    this.form.get(`${$event?.colorType === 'point' ? 'perimeterColor' : 'perimeterFillColor'}`)?.setValue($event?.color);
+    this.closeModalColorPicker();
+  }
+
+  get perimeterType() { return this.form.get('perimeterType')?.value; }
+  get perimeterName() { return this.form.get('perimeterName')?.value; }
+  get perimeterColor() { return this.form.get('perimeterColor')?.value; }
+  get perimeterFillColor() { return this.form.get('perimeterFillColor')?.value; }
 }

@@ -1,7 +1,7 @@
 import {
     TileLayerOptions
 } from 'leaflet';
-import { 
+import {
     PerimetersTypeDTO
 } from 'src/app/dtos/index.dto';
 
@@ -26,3 +26,16 @@ export const PERIMETERS_TYPE: PerimetersTypeDTO[] = [
         key: 'polyline'
     }
 ];
+export const MODAL_CONFIG = {
+    MEDIUM: {
+        size: "md",
+        modalClass: 'sideModal',
+        hideCloseButton: false,
+        centered: false,
+        backdrop: true,
+        animation: true,
+        keyboard: false,
+        closeOnOutsideClick: true,
+        backdropClass: "none"
+    }
+}
