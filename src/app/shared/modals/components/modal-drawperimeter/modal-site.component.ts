@@ -18,7 +18,8 @@ import {
   swalAuthAction,
   resetMap,
   fly,
-  showPerimeters
+  showPerimeters,
+  clearMap
 } from 'src/app/shared/shared.index';
 import Swal from 'sweetalert2';
 @Component({
@@ -36,6 +37,7 @@ export class ModalSiteComponent implements OnChanges {
   @Input('dataMap') dataMap: DataMapDTO = {};
 
   @Output() openedModalDraw = new EventEmitter<boolean>();
+  @Output() hideSideBar = new EventEmitter<boolean>();
 
   modalRef: any;
   @ViewChild('modal') modal: any;
@@ -105,9 +107,6 @@ export class ModalSiteComponent implements OnChanges {
     this.modalRef.onClose.subscribe(() => {
       this.show = false;
       this.openedModalDraw.emit(false);
-
-      const perimeters = this.mapService.getDataMap().perimeters?.perimetersRegistered;
-      showPerimeters(this.map, perimeters);
     });
   }
 
@@ -115,6 +114,7 @@ export class ModalSiteComponent implements OnChanges {
     this.form.get('perimeterType')?.setValue(draw);
     switch (draw) {
       case 'polyline':
+        clearMap(this.map);
         this.toast.info('Ya puede comenzar a dibujar el perimetro');
 
         // Emit order to can draw in the map
@@ -126,7 +126,8 @@ export class ModalSiteComponent implements OnChanges {
         this.openModalIndicator();
         this.modalService.close(this.modalRef);
         this.polyline();
-        break;
+        this.hideSideBar.emit(false);
+      break;
     }
   }
 
@@ -140,6 +141,7 @@ export class ModalSiteComponent implements OnChanges {
       this.drawWay = false;
 
       this.reset();
+      this.hideSideBar.emit(true);
       if (this.openedColorPicker) this.closeModalColorPicker();
     });
   }

@@ -1,7 +1,7 @@
 <div>
   <nav class="sidenav">
     <ul class="main-buttons">
-      <li>
+      <li *ngIf='showMenu'>
         <i class="fas fa-draw-polygon"></i>
         Perimetros
         <ul class="hidden">
@@ -18,6 +18,7 @@
     [dataMap]="dataMap"
     [show]="openedModalDraw"
     (openedModalDraw)="onShowClosed()"
+    (hideSideBar)="hideSideBar($event)"
   ></app-modal>
   <app-list-perimeters
     [show]="openModalListParameters"
