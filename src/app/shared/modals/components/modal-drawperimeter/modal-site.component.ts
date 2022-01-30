@@ -223,4 +223,8 @@ export class ModalSiteComponent implements OnChanges {
 
   }
   goFly = (map: any, coordinates: CoordinatesDTO, zoom: number = 10) => fly(map, coordinates, zoom)
+
+  changeFillColor = ($event: any) => {
+    console.log($event)
+  } 
 }

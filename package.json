@@ -24,6 +24,7 @@
     "leaflet": "^1.7.1",
     "moment": "^2.29.1",
     "ngb-modal": "^2.0.3",
+    "ngx-color": "^7.3.3",
     "ngx-spinner": "^13.0.0",
     "ngx-toastr": "^14.2.1",
     "rxjs": "~6.6.0",

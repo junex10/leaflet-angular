@@ -4,19 +4,22 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { ModalModule } from 'ngb-modal';
-import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ColorSketchModule } from 'ngx-color/sketch';
 
 import { AppComponent } from './app.component';
 import { SidebarComponent } from './shared/sidebar/sidebar.component';
 import { ModalSiteComponent } from './shared/modals/components/modal-drawperimeter/modal-site.component';
 import { ListPerimetersComponent } from './shared/modals/components/list-perimeters/list-perimeters.component';
+import { ColorPickerComponent } from './shared/modals/components/color-picker/color-picker.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SidebarComponent,
     ModalSiteComponent,
-    ListPerimetersComponent
+    ListPerimetersComponent,
+    ColorPickerComponent
   ],
   imports: [
     BrowserModule,
@@ -28,7 +31,8 @@ import { ListPerimetersComponent } from './shared/modals/components/list-perimet
     }),
     ModalModule,
     FormsModule,
-    ReactiveFormsModule 
+    ReactiveFormsModule,
+    ColorSketchModule
   ],
   providers: [],
   bootstrap: [AppComponent],
