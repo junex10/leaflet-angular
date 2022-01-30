@@ -14,5 +14,6 @@ export {
     setMarker,
     resetMap,
     drawPolygon,
-    translatePerimeterType
+    translatePerimeterType,
+    showPerimeters
 } from './commons/helper.common';

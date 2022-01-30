@@ -72,3 +72,18 @@ export const translatePerimeterType = (perimeterType: string = 'none') => {
     }
     return perimeterType;
 }
+/**
+*   @function showAllPerimeters on the map
+*/
+export const showPerimeters = (map: any, perimeters: any) => {
+    perimeters?.forEach((values: any) => {
+        switch(values.perimeterType) {
+          case 'polyline':
+            const polygon = drawPolygon(map, values.perimeterCoordinates, values.perimeterColor, values.perimeterFillColor);
+            polygon.then(self => {
+              self.bindPopup(`<b>Perimetro:</b> ${values.perimeter}<br><b>Tipo:</b> ${translatePerimeterType(values.perimeterType)}`)
+            })
+          break;
+        }
+      });
+}

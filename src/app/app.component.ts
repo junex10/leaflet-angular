@@ -6,7 +6,8 @@ import {
   MAP_OPTIONS,
   swalErrorLocation,
   drawPolygon,
-  translatePerimeterType
+  translatePerimeterType,
+  showPerimeters
 } from 'src/app/shared/shared.index';
 import {
   DataMapDTO,
@@ -77,21 +78,8 @@ export class AppComponent implements OnInit {
   }
   ngOnInit(): void {
     this.initMap();
-    this.showPerimeters(); // Loads all perimeters
-    this.toast.info('Se ha cargado el mapa correctamente')
-  }
-
-  showPerimeters = () => {
     const perimeters = this.mapService.getDataMap().perimeters?.perimetersRegistered;
-    perimeters?.forEach(values => {
-      switch(values.perimeterType) {
-        case 'polyline':
-          const polygon = drawPolygon(this.map, values.perimeterCoordinates, values.perimeterColor, values.perimeterFillColor);
-          polygon.then(self => {
-            self.bindPopup(`<b>Perimetro:</b> ${values.perimeter}<br><b>Tipo:</b> ${translatePerimeterType(values.perimeterType)}`)
-          })
-        break;
-      }
-    });
+    showPerimeters(this.map, perimeters); // Loads all perimeters
+    this.toast.info('Se ha cargado el mapa correctamente')
   }
 }

@@ -17,7 +17,8 @@ import {
   setMarker,
   swalAuthAction,
   resetMap,
-  fly
+  fly,
+  showPerimeters
 } from 'src/app/shared/shared.index';
 import Swal from 'sweetalert2';
 @Component({
@@ -134,7 +135,7 @@ export class ModalSiteComponent implements OnChanges {
       this.drawWay = false;
 
       this.reset();
-
+      this.closeModalColorPicker();
     });
   }
 
@@ -153,11 +154,9 @@ export class ModalSiteComponent implements OnChanges {
 
       this.actualPointMarked[0].bindPopup(`<b>Punto inicial</b>`).openPopup();
       this.actualPointMarked[0].on('click', () => {
-        //if (!this.form.invalid) {
-          if (this.actualPointMarked.length >= 3) Swal.fire(swalAuthAction('¿Desea confirmar el perimetro?', 'Confirmar', 'Cancelar'))
+        if (this.actualPointMarked.length >= 3) Swal.fire(swalAuthAction('¿Desea confirmar el perimetro?', 'Confirmar', 'Cancelar'))
           .then(way => way.isConfirmed ? this.registerDraw() : null);
-          else this.toast.error(`Debe marcar mínimo 3 puntos para crear el perimetro`)
-        //} else this.toast.error('Debe rellenar todos los datos del perimetro')
+        else this.toast.error(`Debe marcar mínimo 3 puntos para crear el perimetro`)
       })
 
       this.drawMarkedtmp.then((polylines: any) => {
@@ -187,7 +186,6 @@ export class ModalSiteComponent implements OnChanges {
       perimeterCoordinates: this.drawMarked,
       perimeterFillColor: this.perimeterFillColor
     };
-    console.log(perimeterRegister, ' -> FORMULARIO')
     if (perimeterRegister.perimeterCoordinates.length > 0) {
       this.dataMap.perimeters?.perimetersRegistered?.push(perimeterRegister);
       this.mapService.putDataMap(this.dataMap);
@@ -209,6 +207,9 @@ export class ModalSiteComponent implements OnChanges {
     this.map.remove(this.eventPerimeter);
     this.map = resetMap();
 
+    const perimeters = this.mapService.getDataMap().perimeters?.perimetersRegistered;
+    showPerimeters(this.map, perimeters); // Loads all perimeters
+    this.form.reset();
   }
   goFly = (map: any, coordinates: CoordinatesDTO, zoom: number = 10) => fly(map, coordinates, zoom)
 
