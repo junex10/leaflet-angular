@@ -87,3 +87,13 @@ export const showPerimeters = (map: any, perimeters: any) => {
         }
       });
 }
+/**
+*   @function clearMap 
+*/
+export const clearMap = (map: any) => {
+    let index = 0;
+    map.eachLayer((layer: any) => {
+        if (index >= 1) map.removeLayer(layer)
+        index++;
+    });
+}

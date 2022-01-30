@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
 import {
   PERIMETERS_TYPE,
-  fly
+  clearMap
 } from 'src/app/shared/shared.index';
 import {
   PerimetersTypeDTO,
@@ -34,7 +34,10 @@ export class SidebarComponent implements OnInit {
     if (this.openedModalDraw) this.onShowClosed();
   }
 
-  openDraw = () => this.openedModalDraw = true;
+  openDraw = () => {
+    this.openedModalDraw = true;
+    clearMap(this.map);
+  }
 
   openList = () => {
     this.getPerimeters();
@@ -43,7 +46,10 @@ export class SidebarComponent implements OnInit {
 
   onShowClosed = () => this.openedModalDraw = false;
 
-  onListPerimetersClosed = () => this.openModalListParameters = false;
+  onListPerimetersClosed = () => {
+    this.openModalListParameters = false;
+    this.perimetersRegistered = [];
+  }
 
   getPerimeters = () => {
     this.perimetersRegistered.push(this.mapService.getDataMap().perimeters?.perimetersRegistered);

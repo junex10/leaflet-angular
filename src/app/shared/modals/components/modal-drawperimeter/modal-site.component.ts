@@ -62,6 +62,7 @@ export class ModalSiteComponent implements OnChanges {
   form: FormGroup;
 
   colorType: string = 'point';
+  openedColorPicker: boolean = false;
 
   constructor(
     private modalService: ModalManager,
@@ -96,6 +97,7 @@ export class ModalSiteComponent implements OnChanges {
   openColorPicker = (colorType: string) => {
     this.colorPickerRef = this.modalService.open(this.colorPicker, MODAL_CONFIG.MEDIUM);
     this.colorType = colorType;
+    this.openedColorPicker = true;
   }
 
   openModal = () => {
@@ -103,6 +105,9 @@ export class ModalSiteComponent implements OnChanges {
     this.modalRef.onClose.subscribe(() => {
       this.show = false;
       this.openedModalDraw.emit(false);
+
+      const perimeters = this.mapService.getDataMap().perimeters?.perimetersRegistered;
+      showPerimeters(this.map, perimeters);
     });
   }
 
@@ -135,12 +140,15 @@ export class ModalSiteComponent implements OnChanges {
       this.drawWay = false;
 
       this.reset();
-      this.closeModalColorPicker();
+      if (this.openedColorPicker) this.closeModalColorPicker();
     });
   }
 
   closeModalIndicator = () => this.modalService.close(this.modalIndicatorRef);
-  closeModalColorPicker = () => this.modalService.close(this.colorPickerRef);
+  closeModalColorPicker = () => {
+    this.modalService.close(this.colorPickerRef);
+    this.openedColorPicker = false;
+  }
 
   polyline = () => {
     this.eventPerimeter = this.map.on('click', (e: any) => {

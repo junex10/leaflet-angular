@@ -3,6 +3,8 @@ import { ModalManager } from 'ngb-modal';
 import { ToastrService } from 'ngx-toastr';
 import { fly } from 'src/app/shared/shared.index';
 import { PerimeterRegisterDTO, CoordinatesDTO } from 'src/app/dtos/index.dto';
+import { MODAL_CONFIG } from 'src/app/shared/commons/config';
+import { MapService } from 'src/app/services/index.service';
 @Component({
   selector: 'app-list-perimeters',
   templateUrl: './list-perimeters.component.html',
@@ -23,7 +25,8 @@ export class ListPerimetersComponent implements OnChanges {
 
   constructor(
     private modalService: ModalManager,
-    private toast: ToastrService
+    private toast: ToastrService,
+    private mapService: MapService
   ) { }
 
   ngOnChanges(): void {
@@ -31,17 +34,7 @@ export class ListPerimetersComponent implements OnChanges {
   }
 
   openModal = () => {
-    this.modalRef = this.modalService.open(this.modal, {
-      size: "md",
-      modalClass: 'mymodal',
-      hideCloseButton: false,
-      centered: false,
-      backdrop: true,
-      animation: true,
-      keyboard: false,
-      closeOnOutsideClick: true,
-      backdropClass: "modal-backdrop"
-    });
+    this.modalRef = this.modalService.open(this.modal, MODAL_CONFIG.MEDIUM);
     this.modalRef.onClose.subscribe(() => {
       this.show = false;
       this.openModalListParameters.emit();
