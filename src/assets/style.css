@@ -51,7 +51,6 @@ ul li{
     cursor: pointer;
     padding: 10px;
     font-size: 23px;
-    overflow-x: auto;
 }
 .listParameter i{
     margin-right: 15px;

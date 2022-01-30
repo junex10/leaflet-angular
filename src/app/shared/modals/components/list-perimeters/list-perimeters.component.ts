@@ -25,8 +25,7 @@ export class ListPerimetersComponent implements OnChanges {
 
   constructor(
     private modalService: ModalManager,
-    private toast: ToastrService,
-    private mapService: MapService
+    private toast: ToastrService
   ) { }
 
   ngOnChanges(): void {
