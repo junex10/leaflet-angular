@@ -39,3 +39,21 @@ export const MODAL_CONFIG = {
         backdropClass: "none"
     }
 }
+export const SIDEMENU = [
+    {
+        menu: 'Perimetros',
+        icon: 'fas fa-draw-polygon',
+        subMenus: [
+            {
+                name: 'Dibujar perimetro',
+                icon: 'fas fa-draw-polygon',
+                action: 'openDraw()'
+            },
+            {
+                name: 'Lista de perimetros',
+                icon: 'fas fa-clipboard-list',
+                action: 'openList()'
+            }
+        ]
+    }
+]

@@ -7,6 +7,7 @@ import {
   DataMapDTO
 } from 'src/app/dtos/index.dto';
 import { MapService } from 'src/app/services/index.service';
+import { SIDEMENU } from '../commons/config';
 
 @Component({
   selector: 'app-sidebar',
@@ -26,12 +27,15 @@ export class SidebarComponent implements OnInit {
 
   showMenu: boolean = true;
 
+  menu: any = [];
+
   constructor(
     private mapService: MapService
   ) { }
 
   ngOnInit(): void {
     if (this.openedModalDraw) this.onShowClosed();
+    this.menu = SIDEMENU;
   }
 
   openDraw = () => this.openedModalDraw = true;
@@ -54,4 +58,6 @@ export class SidebarComponent implements OnInit {
   }
 
   hideSideBar = ($event: boolean) => this.showMenu = $event;
+
+  launchWay = (action: string) => eval(`this.${action}`)
 }
