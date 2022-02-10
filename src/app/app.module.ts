@@ -6,12 +6,20 @@ import { ToastrModule } from 'ngx-toastr';
 import { ModalModule } from 'ngb-modal';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ColorSketchModule } from 'ngx-color/sketch';
+import { RouterModule, Routes } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { SidebarComponent } from './shared/sidebar/sidebar.component';
 import { ModalSiteComponent } from './shared/modals/components/modal-drawperimeter/modal-site.component';
 import { ListPerimetersComponent } from './shared/modals/components/list-perimeters/list-perimeters.component';
 import { ColorPickerComponent } from './shared/modals/components/color-picker/color-picker.component';
+
+const routes: Routes = [
+  {
+    path: '',
+    component: AppComponent
+  }
+];
 
 @NgModule({
   declarations: [
@@ -32,10 +40,12 @@ import { ColorPickerComponent } from './shared/modals/components/color-picker/co
     ModalModule,
     FormsModule,
     ReactiveFormsModule,
-    ColorSketchModule
+    ColorSketchModule,
+    RouterModule.forRoot(routes)
   ],
   providers: [],
   bootstrap: [AppComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  exports: [RouterModule]
 })
 export class AppModule { }
