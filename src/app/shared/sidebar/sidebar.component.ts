@@ -26,6 +26,7 @@ export class SidebarComponent implements OnInit {
   perimetersRegistered: any[] = [];
 
   showMenu: boolean = true;
+  showNav: boolean = true;
 
   menu: any = [];
 
@@ -60,4 +61,6 @@ export class SidebarComponent implements OnInit {
   hideSideBar = ($event: boolean) => this.showMenu = $event;
 
   launchWay = (action: string) => eval(`this.${action}`)
+
+  menuToggle = () => this.showNav = !this.showNav
 }

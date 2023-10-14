@@ -1,9 +1,10 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:600);
 .sidenav {
   position: fixed;
-  width: 280px;
+  width: 20%;
   height: 100%;
   background-color: var(--azul);
+  z-index: 10000;
 }
 .sidenav .main-buttons {
   list-style-type: none;
@@ -57,4 +58,11 @@
 }
 .hidden li:hover, .hidden li:active, .hidden li:focus {
   background-color: var(--rojo);
+}
+.iconMenu{
+  z-index: 10000;
+  position: fixed;
+  bottom: 0;
+  left: 1%;
+  margin-bottom: 10px;
 }

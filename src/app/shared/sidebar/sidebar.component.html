@@ -1,5 +1,14 @@
 <div>
+  <ng-container *ngIf="!showNav">
+    <div class="iconMenu" (click)="menuToggle()">
+      <i class="fas fa-bars hamburguer"></i>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="showNav">
   <nav class="sidenav">
+    <div class="iconMenu" id="closedMenu" (click)="menuToggle()">
+      <i class="fas fa-bars hamburguer"></i>
+    </div>
     <ul class="main-buttons">
 	<!-- How to work with ngFor in ANGULARCLI using next template -->
 	 <ng-container *ngIf='showMenu'>
@@ -38,4 +47,5 @@
     [map]="map"
     (openModalListParameters)="onListPerimetersClosed()"
   ></app-list-perimeters>
+</ng-container>
 </div>
