@@ -67,7 +67,7 @@ export const drawPolygon = async (map: any, coord: L.LatLngExpression[] | L.LatL
 export const translatePerimeterType = (perimeterType: string = 'none') => {
     switch(perimeterType){
         case 'polyline':
-            perimeterType = '<i class="fas fa-draw-polygon"></i> Polígono';
+            perimeterType = '<i class="fas fa-draw-polygon"></i> Polygon';
         break;
     }
     return perimeterType;
@@ -81,7 +81,7 @@ export const showPerimeters = (map: any, perimeters: any) => {
           case 'polyline':
             const polygon = drawPolygon(map, values.perimeterCoordinates, values.perimeterColor, values.perimeterFillColor);
             polygon.then(self => {
-              self.bindPopup(`<b>Perimetro:</b> ${values.perimeter}<br><b>Tipo:</b> ${translatePerimeterType(values.perimeterType)}`)
+              self.bindPopup(`<b>Perimeter:</b> ${values.perimeter}<br><b>Type:</b> ${translatePerimeterType(values.perimeterType)}`)
             })
           break;
         }

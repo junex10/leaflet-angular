@@ -3,3 +3,8 @@
     max-height: 400px;
     overflow-x: hidden;
 }
+.removePerimeter{
+    font-size: 24px;
+    margin-top: 10px;
+    cursor: pointer;
+}

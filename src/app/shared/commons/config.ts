@@ -21,7 +21,7 @@ export const PERIMETERS_TYPE: PerimetersTypeDTO[] = [
         key: 'circle' 
     },*/
     {
-        perimeter: 'Poligono',
+        perimeter: 'Polygon',
         icon: 'fas fa-draw-polygon',
         key: 'polyline'
     }
@@ -41,16 +41,16 @@ export const MODAL_CONFIG = {
 }
 export const SIDEMENU = [
     {
-        menu: 'Perimetros',
+        menu: 'Perimeter',
         icon: 'fas fa-draw-polygon',
         subMenus: [
             {
-                name: 'Dibujar perimetro',
+                name: 'Draw perimeter',
                 icon: 'fas fa-draw-polygon',
                 action: 'openDraw()'
             },
             {
-                name: 'Lista de perimetros',
+                name: 'Perimeter list',
                 icon: 'fas fa-clipboard-list',
                 action: 'openList()'
             }

@@ -26,7 +26,7 @@ export class SidebarComponent implements OnInit {
   perimetersRegistered: any[] = [];
 
   showMenu: boolean = true;
-  showNav: boolean = true;
+  showNav: boolean = false;
 
   menu: any = [];
 

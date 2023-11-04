@@ -73,19 +73,19 @@ export class ModalSiteComponent implements OnChanges {
     private fb: FormBuilder
   ) {
     this.form = this.fb.group({
-      perimeterType: ['none', [
+      perimeterType: [null, [
         Validators.required,
         Validators.pattern(/\.*[A-Z]/)
       ]],
-      perimeterName: ['', [
+      perimeterName: [null, [
         Validators.required,
         Validators.pattern(/\.*[A-Z]/)
       ]],
-      perimeterColor: ['#000000', [
+      perimeterColor: [null, [
         Validators.required,
         Validators.pattern(/\.*[A-Z]/)
       ]],
-      perimeterFillColor: ['#000000', [
+      perimeterFillColor: [null, [
         Validators.required,
         Validators.pattern(/\.*[A-Z]/)
       ]]
@@ -115,7 +115,7 @@ export class ModalSiteComponent implements OnChanges {
     switch (draw) {
       case 'polyline':
         clearMap(this.map);
-        this.toast.info('Ya puede comenzar a dibujar el perimetro');
+        this.toast.info('You can draw the perimeter');
 
         // Emit order to can draw in the map
 
@@ -137,7 +137,7 @@ export class ModalSiteComponent implements OnChanges {
       this.show = false;
       this.openedModalDraw.emit(false);
 
-      this.drawWay == false ? this.toast.info('Ha cancelado para dibujar el perimetro') : this.toast.success('Ha registrado el nuevo perimetro');
+      this.drawWay == false ? this.toast.info('You canceled the perimeter') : this.toast.success('Perimeter created');
       this.drawWay = false;
 
       this.reset();
@@ -159,14 +159,14 @@ export class ModalSiteComponent implements OnChanges {
 
       this.drawMarkedtmp = drawPolyline(this.map, this.drawMarked, '#000000');
       const markedDraw = setMarker(this.map, coordinates.lat, coordinates.long);
-      markedDraw.bindPopup(`Coordenadas: ${coordinates.lat} - ${coordinates.long}`);
+      markedDraw.bindPopup(`Coordinates: ${coordinates.lat} - ${coordinates.long}`);
       this.actualPointMarked.push(markedDraw);
 
       this.actualPointMarked[0].bindPopup(`<b>Punto inicial</b>`).openPopup();
       this.actualPointMarked[0].on('click', () => {
-        if (this.actualPointMarked.length >= 3) Swal.fire(swalAuthAction('¿Desea confirmar el perimetro?', 'Confirmar', 'Cancelar'))
+        if (this.actualPointMarked.length >= 3) Swal.fire(swalAuthAction('Are you sure to generate the perimeter?', 'Confirm', 'Cancel'))
           .then(way => way.isConfirmed ? this.registerDraw() : null);
-        else this.toast.error(`Debe marcar mínimo 3 puntos para crear el perimetro`)
+        else this.toast.error(`You must to mark at least 3 points on the map to generate the perimeter`)
       })
 
       this.drawMarkedtmp.then((polylines: any) => {
@@ -219,6 +219,7 @@ export class ModalSiteComponent implements OnChanges {
 
     const perimeters = this.mapService.getDataMap().perimeters?.perimetersRegistered;
     showPerimeters(this.map, perimeters); // Loads all perimeters
+    
     this.form.reset();
   }
   goFly = (map: any, coordinates: CoordinatesDTO, zoom: number = 10) => fly(map, coordinates, zoom)

@@ -13,7 +13,7 @@
 </modal>
 <modal #colorPicker class='colorPicker'>
     <modal-header>
-        <h6 class='text-center'>Elige un color</h6>
+        <h6 class='text-center'>Select a color</h6>
     </modal-header>
     <modal-content>
         <app-color-picker (colorSelected)="colorSelected($event)" [colorType]="colorType"></app-color-picker>
@@ -21,42 +21,42 @@
 </modal>
 <modal #modalIndicator class='perimeterIndicator'>
     <modal-header>
-        <h6 class='text-center'>Perimetro</h6>
+        <h6 class='text-center'>Perimeter</h6>
     </modal-header>
     <modal-content>
         <form [formGroup]="form" autocomplete="off">
-            <h4 class='text-center font-weight-bold mb-4'>Datos del perimetro</h4>
+            <h4 class='text-center font-weight-bold mb-4'>Perimeter information</h4>
             <div class='row'>
                 <div class='col-12 col-sm-12 col-lg-6 form-group'>
-                    <label for='perimeterType'>Nombre del perímetro</label>
+                    <label for='perimeterType'>Perimeter name</label>
                     <input type='text' class='form-control' id='perimeterType' formControlName="perimeterName">
                 </div>
                 <div class='col-12 col-sm-12 col-lg-6 form-group'>
-                    <label for='perimeterColor'>Color de linea del perímetro</label>
+                    <label for='perimeterColor'>Outline perimeter color</label>
                     <input type='text' class='form-control' id='perimeterColor' formControlName="perimeterColor" (click)="openColorPicker('point')"> <!-- Crear evento que abra un modal para elegir color -->
                 </div>
                 <div class='col-12 form-group'>
-                    <label for='perimeterFillColor'>Color de fondo del perímetro</label>
+                    <label for='perimeterFillColor'>Fill perimeter color</label>
                     <input type='text' class='form-control' id='perimeterFillColor' formControlName="perimeterFillColor" (click)="openColorPicker('fill')">
                 </div>
             </div>
         </form>
         <hr />
-        <div class='form-group'>
-            <h4 class='text-center font-weight-bold mb-4'>Coordenadas actuales</h4>
+        <div class='form-group coordinates'>
+            <h4 class='text-center font-weight-bold mb-4'>Current coordenates</h4>
             <div class='row'>
                 <div class='col-12 col-sm-12 col-md-6 col-lg-6'>
-                    <label for='latitud'>Latitud:</label><br>
+                    <label for='latitud'>Latitude:</label><br>
                     <input *ngIf='drawMarked.length > 0' class='form-control' type='text' id='latitud' disabled [value]="drawMarked[drawMarked.length-1][0]">
                     <input *ngIf='drawMarked.length == 0' class='form-control' type='text' id='latitud' disabled value="0">
                 </div>
                 <div class='col-12 col-sm-12 col-md-6 col-lg-6'>
-                    <label for='longitud'>Longitud:</label><br>
+                    <label for='longitud'>Longitude:</label><br>
                     <input *ngIf='drawMarked.length > 0' class='form-control' type='text' id='longitud' disabled [value]="drawMarked[drawMarked.length-1][1]">
                     <input *ngIf='drawMarked.length == 0' class='form-control' type='text' id='longitud' disabled value="0">
                 </div>
             </div>
-            <h4 class='text-center font-weight-bold mb-4 mt-4' *ngIf='drawMarked.length > 0'>Coordenadas marcadas</h4>
+            <h4 class='text-center font-weight-bold mb-4 mt-4' *ngIf='drawMarked.length > 0'>Coordenates marked</h4>
             <div class='row coordinate-box'>
                 <div class='col-12 row coordinate-selected' *ngFor="let i of drawMarked" (click)="goFly(map, {lat: i[0], long: i[1]})">
                     <div class='col-12 col-sm-12 col-md-6 col-lg-6 mb-2'>
@@ -66,14 +66,10 @@
                         <input class='form-control' type='text' id='longitud' disabled [value]="i[1]">
                     </div>
                 </div>
+                <div class='col-12' [ngStyle]="{'margin-top': 10}">
+                    <button type='button' class='btn btn-block btn-danger' (click)='closeModalIndicator()'>Cancel</button>
+                 </div>
             </div>
         </div>
     </modal-content>
-    <modal-footer id='modal-indicator-footer'>
-        <div class='row'>
-            <div class='col-12'>
-                <button type='button' class='btn btn-block btn-danger' (click)='closeModalIndicator()'>Cancelar</button>
-            </div>
-        </div>
-    </modal-footer>
 </modal>

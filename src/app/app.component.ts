@@ -80,6 +80,5 @@ export class AppComponent implements OnInit {
     this.initMap();
     const perimeters = this.mapService.getDataMap().perimeters?.perimetersRegistered;
     showPerimeters(this.map, perimeters); // Loads all perimeters
-    this.toast.info('Se ha cargado el mapa correctamente')
   }
 }
